@@ -24,21 +24,18 @@
     </RelativeLayout>
 
     <FrameLayout
+        android:id="@+id/display_info_custom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/display_info_custom"
-        >
+        android:background="@drawable/lens_round_rect_dark">
+
         <TextView
             android:id="@+id/tv_display"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/lens_round_rect_dark"
             android:textColor="@color/black_051b28"
             android:textSize="@dimen/text_size_12" />
 
     </FrameLayout>
 
-
-
-    <View style="@style/lensBasePanelDivider" />
 </LinearLayout>

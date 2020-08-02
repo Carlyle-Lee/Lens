@@ -48,6 +48,7 @@ public class TableBuilder {
     private float boarderStroke;
     private boolean isExtraColEnabled;
     private int boarderColor;
+    private int[] mStretchableColumns;
 
 
     public static TableBuilder obtain() {
@@ -137,6 +138,12 @@ public class TableBuilder {
         return this;
     }
 
+    public TableBuilder setStretchableColumns(int ... columns) {
+        mStretchableColumns = columns;
+        return this;
+    }
+
+
 
     public TableLayout build(Context context) {
 
@@ -161,6 +168,12 @@ public class TableBuilder {
 
         boolean hasRowName = false;
 
+        if(mStretchableColumns != null) {
+            for (int i : mStretchableColumns) {
+                layout.setColumnStretchable(i, true);
+            }
+        }
+
         //[update row count by row Names]
         if (rowNames != null && rowNames.length >= rowCount) {
             rowCount = rowNames.length;
@@ -182,6 +195,7 @@ public class TableBuilder {
         if (boarderColor != 0) {
             layout.setBoarderColor(boarderColor);
         }
+
 
 
         if (colNames != null && colNames.length >= colCount) {
@@ -234,10 +248,6 @@ public class TableBuilder {
             textView.setText(name);
             itemView = textView;
         }
-
-//        if(rowNameColor != 0) {
-//            itemView.setBackgroundColor( rowNameColor);
-//        }
 
         return itemView;
     }
@@ -307,9 +317,9 @@ public class TableBuilder {
 
     public interface ItemDataBinder {
         //[if view is null , need create view ]
-        public void bindData(String data, View view, int row, int column);
+        void bindData(String data, View view, int row, int column);
 
-        public View createItemView(ViewGroup parent, int row, int column);
+        View createItemView(ViewGroup parent, int row, int column);
     }
 
 

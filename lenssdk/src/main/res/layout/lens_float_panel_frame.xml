@@ -33,13 +33,6 @@
                 android:src="@drawable/lens_min_icon" />
 
             <View
-                android:id="@+id/float_control_drag"
-                android:layout_width="48dp"
-                android:layout_height="6dp"
-                android:layout_centerInParent="true"
-                android:background="@drawable/lens_drag_round_rect" />
-
-            <View
                 android:id="@+id/float_control_dismiss"
                 android:layout_width="18dp"
                 android:layout_height="18dp"

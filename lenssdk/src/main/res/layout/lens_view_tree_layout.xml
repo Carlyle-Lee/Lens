@@ -6,18 +6,11 @@
     android:orientation="vertical"
     >
 
-    <TextView
-        style="@style/lensTitleStyle"
-        android:text="视图树"
-        android:layout_marginBottom="4dp"
-        />
-
     <androidx.viewpager.widget.ViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/lens_view_pager"
         >
-
 
     </androidx.viewpager.widget.ViewPager>
 

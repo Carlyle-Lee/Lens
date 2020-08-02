@@ -9,4 +9,5 @@
     <dimen name="text_size_16">16dp</dimen>
     <dimen name="text_size_20">20dp</dimen>
     <dimen name="normal_padding">10dp</dimen>
+    <dimen name="lens_default_title_bar_height">32dp</dimen>
 </resources>

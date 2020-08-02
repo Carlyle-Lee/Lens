@@ -66,6 +66,7 @@ public class DeviceInfo extends AbsBlockInfo {
                 .setData(data)
                 .setItemTextSize(12)
                 .setStrokeWidth(3, 5)
+                .setStretchableColumns(0,1)
                 .setColumnCountRowCount(3, 4)
                 .build(context);
 

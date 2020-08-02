@@ -3,20 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white_f7f7f7"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     >
-    <TextView
-        android:gravity="center"
-        android:text="界面分析"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black_051b28"
-        />
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,8 +19,6 @@
         android:drawablePadding="8dp"
         android:textColor="@color/black_051b28"
         />
-
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,7 +32,6 @@
         android:gravity="center_vertical"
         android:drawablePadding="8dp"
         />
-
 
 
     <ScrollView
@@ -63,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/lens_panel_ac_max_tree_level"
-                android:drawableLeft="@drawable/lens_tree_node"
+                android:drawableLeft="@drawable/lens_ac_tree_deep"
                 android:text="查看最深视图层级"
                 android:layout_margin="4dp"
                 android:background="@drawable/lens_round_rect_light"
@@ -71,6 +57,21 @@
                 android:padding="4dp"
                 android:gravity="center_vertical"
                 android:drawablePadding="8dp"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/lens_ac_cate"
+                android:id="@+id/panel_ac_info_veiw_types"
+                android:text="查看视图分类信息"
+                android:layout_margin="4dp"
+                android:background="@drawable/lens_round_rect_light"
+                android:padding="4dp"
+                android:gravity="center_vertical"
+                android:drawablePadding="8dp"
+                android:visibility="gone"
+                android:textColor="@color/black_051b28"
                 />
 
             <TextView

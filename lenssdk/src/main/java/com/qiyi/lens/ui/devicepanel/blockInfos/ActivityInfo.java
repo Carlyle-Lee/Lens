@@ -77,7 +77,6 @@ public class ActivityInfo extends AbsBlockInfo implements DataCallBack,
     private View selectRowModel;
     private WeakReference<View> listRowRef;
     private ViewDebugActions mViewDebugActions;
-    private View uiPost;
     // 缓存当前被选中的视图。用于UI 验收
     private WeakReference<View> currentSelectionView;
 
@@ -95,10 +94,8 @@ public class ActivityInfo extends AbsBlockInfo implements DataCallBack,
         showSiblingCheckbox = root.findViewById(R.id.show_sibling);
         icBack = root.findViewById(R.id.back_to_parent);
         selectRowModel = root.findViewById(R.id.up_to_row);
-        uiPost = root.findViewById(R.id.lens_activity_ui_post);
-        if (LensConfig.getInstance().isUIVerifyEnabled()) {
-            uiPost.setVisibility(View.VISIBLE);
-        }
+//        uiPost = root.findViewById(R.id.lens_activity_ui_post);
+
         root.findViewById(R.id.down_to_next).setOnClickListener(this);
         bindBlockClickEvent(parent);
         return root;
@@ -113,7 +110,6 @@ public class ActivityInfo extends AbsBlockInfo implements DataCallBack,
         icBack.setOnClickListener(this);
         mActivityInfoTv.setOnClickListener(this);
         selectRowModel.setOnClickListener(this);
-        uiPost.setOnClickListener(this);
     }
 
     @Override
@@ -192,13 +188,6 @@ public class ActivityInfo extends AbsBlockInfo implements DataCallBack,
             if (selectViewPanel != null) {
                 selectViewPanel.selectNext();
             }
-        } else if (id == R.id.lens_activity_ui_post) {
-            // first prepare data; then
-            UIUploadPanel panel = new UIUploadPanel(getPanel());
-            if (currentSelectionView != null) {
-                panel.setCurrentView(currentSelectionView.get());
-            }
-            panel.show();
         }
     }
 

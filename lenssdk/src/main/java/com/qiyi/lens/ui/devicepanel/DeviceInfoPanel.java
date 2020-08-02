@@ -18,6 +18,7 @@
 package com.qiyi.lens.ui.devicepanel;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -101,7 +102,7 @@ public class DeviceInfoPanel extends FloatingPanel implements DataCallBack {
     @Override
     protected View onCreateView(ViewGroup parent) {
         View root = LayoutInflater.from(context).inflate(R.layout.lens_block_tab_info, null);
-        ViewCompat.setBackground(root, new ColorDrawable(0x80000000));
+        ViewCompat.setBackground(root, new ColorDrawable(context.getResources().getColor(R.color.lens_panel_default_color_light)));
         mLayout = root.findViewById(R.id.panel_container);
         mSettingBtn = root.findViewById(R.id.float_control_setting);
         mSettingBtn.setTag(TAB_SETTING);

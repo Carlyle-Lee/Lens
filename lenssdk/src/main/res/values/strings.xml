@@ -70,4 +70,10 @@
     <string name="lens_test_hook">HOOK</string>
     <string name="lens_paste">粘贴</string>
     <string name="lens_view_bg_color_seetting">点击修改背景色</string>
+    <string name="lens_ac_view_cate_title">视图分类信息</string>
+    <string name="lens_panle_ac_ana_title">界面分析</string>
+    <string name="lens_panle_ac_view_tree_title">视图树</string>
+    <string name="lens_panle_ac_setting_title">设置</string>
+
+
 </resources>

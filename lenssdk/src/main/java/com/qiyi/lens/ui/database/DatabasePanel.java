@@ -58,14 +58,10 @@ public class DatabasePanel extends FullScreenPanel implements UIStateCallBack, V
         View content = inflateView(R.layout.lens_database_panel, viewGroup);
         content.findViewById(R.id.len_title_bar_back).setOnClickListener(this);
         panelTitle = content.findViewById(R.id.len_title_bar_title);
-        setTitle(mContext.getString(R.string.lens_common_title_bar_database));
+        setPanelTitle(mContext.getString(R.string.lens_common_title_bar_database));
         mRecyclerView = content.findViewById(R.id.len_database_recycler_view);
         installRecyclerView(mRecyclerView);
         return content;
-    }
-
-    void setTitle(String title) {
-        panelTitle.setText(title);
     }
 
     void setBase(boolean base) {
@@ -73,6 +69,11 @@ public class DatabasePanel extends FullScreenPanel implements UIStateCallBack, V
     }
 
 
+    private void setPanelTitle(String title) {
+        if(panelTitle != null) {
+            panelTitle.setText(title);
+        }
+    }
     public CommonDBAdapter getAdapter() {
         return mAdapter;
     }

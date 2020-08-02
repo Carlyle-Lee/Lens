@@ -21,5 +21,7 @@
     <color name="test5">#300528ec</color>
     <color name="test6">#30f903e4</color>
     <color name="common_title_bar_bg">#CFCFD1</color>
+    <color name="lens_panel_default_color_light">#fff8f8f8</color>
+    <color name="lens_panel_default_dark_color">#FFEEE9E9</color>
 
 </resources>

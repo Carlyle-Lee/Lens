@@ -46,7 +46,7 @@ public class ViewTreePanel extends FullScreenPanel {
 
     public ViewTreePanel(FloatingPanel panel) {
         super(panel);
-
+        setTitle(R.string.lens_panle_ac_view_tree_title);
     }
 
     @Override

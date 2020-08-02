@@ -18,6 +18,7 @@
 package com.qiyi.lens.ui.viewinfo;
 
 import android.graphics.PixelFormat;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
@@ -130,5 +131,10 @@ public class SelectViewPanel extends FullScreenPanel {
     public boolean shouldBringTofront() {
         if (Utils.hasFloatingWindowPermission()) return !isActivityRoot;
         else return true;
+    }
+
+    @Override
+    protected Drawable generateBackgroundDrawable(){
+        return null;
     }
 }

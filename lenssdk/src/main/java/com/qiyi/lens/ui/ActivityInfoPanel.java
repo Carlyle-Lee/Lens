@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.qiyi.lens.ui.analyze.ActivityViewCategorizedInfoPanle;
 import com.qiyi.lens.ui.objectinfo.ObjectInfoPanel;
 import com.qiyi.lens.ui.viewtree.ViewTreePanel;
 import com.qiyi.lens.ui.widget.tableView.TableView;
@@ -42,12 +43,14 @@ public class ActivityInfoPanel extends FullScreenPanel implements ObjectFieldCol
     private Activity activity;
     private ObjectFieldCollector collector;
     private TextView activityBaseInfoDisplay;
-    private TableView tableView;
     private ViewTreePanel treePanel;
     private ViewClassifyUtil util;
+    private ObjectFieldCollector.Binder dataBinder;
+    private View viewCategorizedInfoView;
 
     public ActivityInfoPanel(FloatingPanel panel) {
         super(panel);
+        setTitle(R.string.lens_panle_ac_ana_title);
     }
 
     @Override
@@ -59,6 +62,8 @@ public class ActivityInfoPanel extends FullScreenPanel implements ObjectFieldCol
         TextView viewTreeInfo = content.findViewById(R.id.panel_ac_info_veiw_tree);
         TextView activityInfo = content.findViewById(R.id.panel_ac_info_activity);
         View maxLevelView = content.findViewById(R.id.lens_panel_ac_max_tree_level);
+        viewCategorizedInfoView = content.findViewById(R.id.panel_ac_info_veiw_types);
+
 //        activityFieldInfoDisplay = content.findViewById(R.id.panel_ac_info_tv2);
 //        activityFieldInfoDisplay.setMovementMethod(LocalLinkMovementMethod.getInstance());
 //        activityFieldInfoDisplay.setLinksClickable(false);
@@ -66,7 +71,7 @@ public class ActivityInfoPanel extends FullScreenPanel implements ObjectFieldCol
         activityInfo.setOnClickListener(this);
         viewTreeInfo.setOnClickListener(this);
         maxLevelView.setOnClickListener(this);
-        tableView = content.findViewById(R.id.panel_ac_info_table);
+        viewCategorizedInfoView.setOnClickListener(this);
 
         return content;
     }
@@ -101,12 +106,12 @@ public class ActivityInfoPanel extends FullScreenPanel implements ObjectFieldCol
 
         if (activityBaseInfoDisplay != null) {
             util = new ViewClassifyUtil(activity.findViewById(android.R.id.content));
-//            final Spannable data = collector.makeSpannable();
             activityBaseInfoDisplay.post(new Runnable() {
                 @Override
                 public void run() {
-                    collector.displayActivityBaseInfo(activityBaseInfoDisplay, tableView, util);
-//                    activityFieldInfoDisplay.setText(data);
+                    viewCategorizedInfoView.setVisibility(View.VISIBLE);
+                    dataBinder = collector.build(util)
+                            .bindActivityBaseInfo(activityBaseInfoDisplay);
                 }
             });
         }
@@ -143,7 +148,8 @@ public class ActivityInfoPanel extends FullScreenPanel implements ObjectFieldCol
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.panel_ac_info_veiw_tree) {
+        int vid = v.getId();
+        if (vid == R.id.panel_ac_info_veiw_tree) {
             //[show view tree]
             if (treePanel == null) {
                 treePanel = new ViewTreePanel(null);
@@ -153,11 +159,11 @@ public class ActivityInfoPanel extends FullScreenPanel implements ObjectFieldCol
             treePanel.setData(activity.findViewById(android.R.id.content));
             treePanel.show();
 
-        } else if (v.getId() == R.id.panel_ac_info_activity) {
+        } else if (vid == R.id.panel_ac_info_activity) {
             //[show activity info]
             ObjectInfoPanel objectInfoPanel = new ObjectInfoPanel(null, activity);
             objectInfoPanel.show();
-        } else if (v.getId() == R.id.lens_panel_ac_max_tree_level) {
+        } else if (vid == R.id.lens_panel_ac_max_tree_level) {
             if (treePanel == null) {
                 treePanel = new ViewTreePanel(null);
                 treePanel.setOnDismissListener(this);
@@ -165,6 +171,12 @@ public class ActivityInfoPanel extends FullScreenPanel implements ObjectFieldCol
             treePanel.setMaxLevelView(util.getMaxLevelView(), util.getViewLevel());
 
             treePanel.show();
+
+        } else if (vid == R.id.panel_ac_info_veiw_types) {
+            // new Panel to show view categorized info
+            ActivityViewCategorizedInfoPanle panel = new ActivityViewCategorizedInfoPanle(getFloatingPanel());
+            panel.setDataBinder(dataBinder);
+            panel.show();
 
         }
 

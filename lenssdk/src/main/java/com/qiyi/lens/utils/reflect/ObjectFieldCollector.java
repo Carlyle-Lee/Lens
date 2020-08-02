@@ -138,56 +138,80 @@ public class ObjectFieldCollector implements Invalidate {
     }
 
     public interface DataRefreshCallback {
-        public void onDataRefresh();
+        void onDataRefresh();
     }
 
-    public void displayActivityBaseInfo(TextView display, TableView tableView, ViewClassifyUtil util) {
-        if (info instanceof ActivityObjectFieldInfo) {
-            ActivityObjectFieldInfo activityObjectFieldInfo = (ActivityObjectFieldInfo) info;
-            activityObjectFieldInfo.setViewClassifyUtils(util);
 
-//            StringBuilder stringBuilder = new StringBuilder();
-//            activityObjectFieldInfo.makeActivityBaseInfo(stringBuilder ,util);
-//            display.setText(stringBuilder.toString());
-
-            display.setMovementMethod(LocalLinkMovementMethod.getInstance());
-            display.setLinksClickable(false);
-            display.setClickable(false);
-
-            Spannable spannable = activityObjectFieldInfo.makeSpannable();
-            display.setText(spannable);
+    public Binder build(ViewClassifyUtil util) {
+        return new Binder(info, util);
+    }
 
 
-            int count = util.getTypesCount();
-            String rowNames[] = new String[count];
-            for (int i = 0; i < count; i++) {
-                rowNames[i] = "" + i;
+
+    public class Binder {
+        private ActivityObjectFieldInfo mInfo;
+        private ViewClassifyUtil mUtil;
+
+        Binder(FieldInfo info, ViewClassifyUtil util) {
+            if (info instanceof ActivityObjectFieldInfo) {
+                mInfo = (ActivityObjectFieldInfo) info;
+                mInfo.setViewClassifyUtils(util);
             }
-
-
-            String data[] = new String[count * 2];
-            int p = 0;
-            for (int i = 0; i < count; i++) {
-                ViewClassifyUtil.TypeInfo info = util.getTypeByIndex(i);
-                data[p++] = info.name;
-                data[p++] = info.count + "";
-            }
-
-            TableBuilder.obtain()
-                    .setColumnCountRowCount(2, count)
-                    .setColumnNames(new String[]{"视图类型", "个数"})
-                    .setRowNames(rowNames)
-                    .setColumnNamesColor(Color.GRAY)
-                    .setRowNamesColor(Color.GRAY)
-                    .setItemTextSize(12)
-                    .setData(data)
-                    .setTableView(tableView)
-                    .build(display.getContext());
-
-        } else {
-            display.setVisibility(View.GONE);
-            tableView.setVisibility(View.GONE);
+            mUtil = util;
         }
+
+
+        public Binder bindActivityBaseInfo(TextView display) {
+            if (mInfo != null ) {
+                display.setMovementMethod(LocalLinkMovementMethod.getInstance());
+                display.setLinksClickable(false);
+                display.setClickable(false);
+                Spannable spannable = mInfo.makeSpannable();
+                display.setText(spannable);
+            } else {
+                display.setVisibility(View.GONE);
+            }
+
+            return this;
+        }
+
+
+        public Binder bindViewCategorizeInfo(TableView tableView) {
+            if (mInfo != null) {
+                int count = mUtil.getTypesCount();
+                String[] rowNames = new String[count];
+                for (int i = 0; i < count; i++) {
+                    rowNames[i] = "" + i;
+                }
+
+                String[] data = new String[count * 2];
+                int p = 0;
+                for (int i = 0; i < count; i++) {
+                    ViewClassifyUtil.TypeInfo info = mUtil.getTypeByIndex(i);
+                    data[p++] = info.name;
+                    data[p++] = info.count + "";
+                }
+
+                TableBuilder.obtain()
+                        .setColumnCountRowCount(2, count)
+                        .setColumnNames(new String[]{"视图类型", "个数"})
+                        .setRowNames(rowNames)
+                        .setColumnNamesColor(0xFFf5f5f5)
+                        .setRowNamesColor(0xFFf5f5f5)
+                        .setNamesTextSize(25)
+                        .setItemTextSize(12)
+                        .setData(data)
+                        .setTableView(tableView)
+                        .setStretchableColumns(1)
+                        .build(tableView.getContext());
+
+            } else if (tableView != null) {
+                tableView.setVisibility(View.GONE);
+            }
+
+            return this;
+        }
+
     }
 
 

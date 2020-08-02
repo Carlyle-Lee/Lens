@@ -17,8 +17,11 @@
  */
 package com.qiyi.lens.ui;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -31,12 +34,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.CallSuper;
+import androidx.annotation.StringRes;
 
 import com.qiyi.lens.Constants;
+import com.qiyi.lens.ui.title.DefaultTitleBinder;
 import com.qiyi.lens.ui.widget.FullScreenFrameLayout;
 import com.qiyi.lens.ui.widget.ViewInAnimation;
-import com.qiyi.lens.utils.LL;
+import com.qiyi.lens.utils.ApplicationLifecycle;
 import com.qiyi.lens.utils.UIUtils;
+import com.qiyi.lens.utils.Utils;
 import com.qiyi.lenssdk.R;
 
 import java.lang.ref.WeakReference;
@@ -60,6 +66,10 @@ public class FullScreenPanel extends BasePanel implements UIStateCallBack {
     protected ViewGroup viewGroup;
     protected boolean enableAnimation = true;
     private boolean pendingShowProgress;
+    //if metaInfo or titleInfo has been set , this panel will show Title Bar
+    private String mMetaInfo;
+    private String mTitleInfo;
+    private Drawable mBackgroundDrawable;
 
     public FullScreenPanel(FloatingPanel panel) {
         wkFloatPanel = new WeakReference<>(panel);
@@ -80,18 +90,49 @@ public class FullScreenPanel extends BasePanel implements UIStateCallBack {
                 return super.dispatchKeyEvent(event);
             }
         };
-
-//        viewGroup.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-//        viewGroup.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
         viewGroup.setBackgroundDrawable(new ColorDrawable(0));
+
+        int topPadding = genTitleBinder();
+
+        createContentView(viewGroup, topPadding);
+
+        return viewGroup;
+    }
+
+
+    protected int genTitleBinder() {
+        if (!Utils.isEmpty(mMetaInfo) || !Utils.isEmpty(mTitleInfo)) {
+            //inflate TitleView
+            return new DefaultTitleBinder(this, viewGroup)
+                    .create()
+                    .title(mTitleInfo)
+                    .meta(mMetaInfo)
+                    .bind();
+
+        }
+        return 0;
+    }
+
+
+    protected Drawable generateBackgroundDrawable(){
+        return new ColorDrawable(Color.WHITE);
+    }
+
+
+
+    private void createContentView(ViewGroup viewGroup, int topPadding) {
         View view = onCreateView(viewGroup);
         if (view == null) {
             view = new View(viewGroup.getContext());
         }
+        if(view.getBackground() == null){
+            view.setBackgroundDrawable(generateBackgroundDrawable());
+        }
         mContentView = view;
+        // add Content View to container
         FrameLayout.LayoutParams fr = new FrameLayout.LayoutParams(-1, -1);
+        fr.topMargin = topPadding;
         viewGroup.addView(view, fr);
-        return viewGroup;
     }
 
     //[to implement by children]
@@ -350,6 +391,50 @@ public class FullScreenPanel extends BasePanel implements UIStateCallBack {
 
     protected int getPanelType() {
         return Constants.PANEL_FULL_SCREEN_PANEL;
+    }
+
+    /**
+     * panel title to be displayed on top center
+     *
+     * @param title
+     */
+    public void setTitle(String title) {
+        mTitleInfo = title;
+    }
+
+    /**
+     * panel title to be displayed on top center
+     *
+     * @param titleRes
+     */
+    public void setTitle(@StringRes int titleRes) {
+        setTitle(getString(titleRes));
+    }
+
+    /**
+     * Meta info to be displayed on top right
+     *
+     * @param meta
+     */
+    public void setMeta(String meta) {
+        mMetaInfo = meta;
+    }
+
+    /**
+     * Meta info to be displayed on top right
+     *
+     * @param metaRes
+     */
+    public void setMeta(@StringRes int metaRes) {
+        setMeta(getString(metaRes));
+    }
+
+    public String getString(@StringRes int id) {
+        Context context = ApplicationLifecycle.getInstance().getContext();
+        if (context != null) {
+            return context.getString(id);
+        }
+        return "";
     }
 
 }

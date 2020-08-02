@@ -51,7 +51,6 @@ import java.util.Arrays;
  */
 public class LensSettingsPanel extends FullScreenPanel implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
 
-    private ImageButton mBackRl;
     private RadioGroup mWindowRadioGroup;
     private RadioButton mWindowOpen;
     private RadioButton mWindowHide;
@@ -64,6 +63,8 @@ public class LensSettingsPanel extends FullScreenPanel implements View.OnClickLi
     public LensSettingsPanel(FloatingPanel panel) {
         super(panel);
         mContext = context;
+        setTitle(R.string.lens_panle_ac_setting_title);
+        setMeta("v" + BuildConfig.VERSION_NAME);
     }
 
     @Override
@@ -78,15 +79,12 @@ public class LensSettingsPanel extends FullScreenPanel implements View.OnClickLi
 
     private void findViews(View view) {
 
-        mBackRl = view.findViewById(R.id.title_back);
         mWindowRadioGroup = view.findViewById(R.id.lens_open_status_rg);
         mWindowOpen = view.findViewById(R.id.radio_open);
         RadioButton mWindowClose = view.findViewById(R.id.radio_close);
         mWindowHide = view.findViewById(R.id.radio_min);
 
         // 未持久化
-        TextView textView = view.findViewById(R.id.tv_setting_version);
-        textView.setText("v" + BuildConfig.VERSION_NAME);
         GridView gridView = view.findViewById(R.id.lens_setting_grid_view);
         switchAction = new SwitchAction();
         ConfigEventCallBack eventCallBack = new ConfigEventCallBack(new DefaultJumpAction(), switchAction);
@@ -121,9 +119,7 @@ public class LensSettingsPanel extends FullScreenPanel implements View.OnClickLi
     }
 
     private void setOnClickListeners() {
-        mBackRl.setOnClickListener(this);
         mWindowRadioGroup.setOnCheckedChangeListener(this);
-
     }
 
     /**
@@ -178,10 +174,7 @@ public class LensSettingsPanel extends FullScreenPanel implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-        int vid = view.getId();
-        if (vid == R.id.title_back) {
-            dismiss();
-        }
+
     }
 
 

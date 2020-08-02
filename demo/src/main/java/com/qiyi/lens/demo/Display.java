@@ -17,7 +17,6 @@
  */
 package com.qiyi.lens.demo;
 
-import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -35,7 +34,6 @@ public class Display implements ICustomDisplay {
     public View createView(ViewGroup parent) {
         LinearLayout linearLayout = new LinearLayout(parent.getContext());
         linearLayout.setMinimumHeight(200);
-        linearLayout.setBackgroundColor(Color.BLUE);
         TextView textView = new TextView(parent.getContext());
         textView.setMinHeight(100);
         linearLayout.addView(textView);

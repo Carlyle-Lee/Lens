@@ -117,7 +117,7 @@ public class DatabaseTablePanel extends FullScreenPanel implements UIStateCallBa
             }
         });
         loadData(null);
-        setTitle(table);
+        setPanelTitle(table);
     }
 
     void initCondition(NameItem item, int key) {
@@ -126,7 +126,7 @@ public class DatabaseTablePanel extends FullScreenPanel implements UIStateCallBa
         primaryKey = LensProvider.get().getDatabases().getPrimaryKey(mKey, table);
     }
 
-    private void setTitle(String title) {
+    private void setPanelTitle(String title) {
         panelTitle.setText(title);
     }
 
