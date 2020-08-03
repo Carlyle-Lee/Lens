@@ -43,7 +43,7 @@ import static android.content.Context.MODE_PRIVATE;
  */
 public class LensApplicationDelegate {
     public static int count;
-    public static String str= "nid";
+    public static String str = "nid";
     private Application mApplication;
     private boolean mLensInited;
     private Object abc = new Object() {
@@ -69,11 +69,11 @@ public class LensApplicationDelegate {
         TimeStampUtil.obtain(LensConfig.LAUNCH_TIME_STAMP_NAME).addStamp();
         TimeStampUtil.obtain(LensConfig.LAUNCH_TIME_STAMP_NAME).setEndViewId(android.R.id.content);
 
-        LensUtil.addABTest("tets_Int", new int[]{0,2,5,11,22,3,44,55,66,77,88,999,9999,99999,99999,999999});
-        LensUtil.addABTest("test_String", new String[]{"aaa","bbb","ccc"});
+        LensUtil.addABTest("tets_Int", new int[]{0, 2, 5, 11, 22, 3, 44, 55, 66, 77, 88, 999, 9999, 99999, 99999, 999999});
+        LensUtil.addABTest("test_String", new String[]{"aaa", "bbb", "ccc"});
         LensUtil.addABTest("test_boolean");
-        LensUtil.addABTest("test_select_int",new int[]{});
-        LensUtil.addABTest("test_select_string",new String[]{});
+        LensUtil.addABTest("test_select_int", new int[]{});
+        LensUtil.addABTest("test_select_string", new String[]{});
 
         NetworkAnalyzeConfig.getInstance().setNetConfig(new INetConfig() {
             @Override
@@ -116,7 +116,7 @@ public class LensApplicationDelegate {
         NetworkAnalyzeConfig.getInstance().addNetRequestWatch("push", new NetworkAnalyzeConfig.RequestWatch() {
             @Override
             public void onRequest(String url) {
-                LL.d("l","jsj");
+                LL.d("l", "jsj");
             }
         });
 
@@ -131,9 +131,10 @@ public class LensApplicationDelegate {
             }
         });
 
-        DisplayConfiguration.obtain().setDisplayHeight(300)
+        DisplayConfiguration.obtain()
+                .setDisplayHeight(300)
                 .setCustomDisplay(Display.class)
-        .setRefreshDuration(500);
+                .setRefreshDuration(500);
 
         mApplication.getSharedPreferences("test", MODE_PRIVATE);
     }

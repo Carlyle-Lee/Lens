@@ -26,6 +26,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.CallSuper;
+
 import com.qiyi.lens.dynamic.LensContext;
 import com.qiyi.lens.utils.ApplicationLifecycle;
 import com.qiyi.lens.utils.SimpleWindowCallback;
@@ -92,6 +94,7 @@ public abstract class BasePanel implements IPanel {
         }
     }
 
+    @CallSuper
     public void show() {
         if (!isAdded) {
             isAdded = true;

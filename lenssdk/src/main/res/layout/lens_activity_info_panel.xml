@@ -89,10 +89,8 @@
             </com.qiyi.lens.ui.widget.tableView.TableView>
 
         </LinearLayout>
-
-
-
-
     </ScrollView>
+
+
 
 </LinearLayout>

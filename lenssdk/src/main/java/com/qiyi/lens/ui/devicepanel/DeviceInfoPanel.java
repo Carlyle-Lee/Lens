@@ -48,6 +48,7 @@ import com.qiyi.lens.utils.ApplicationLifecycle;
 import com.qiyi.lens.utils.DataPool;
 import com.qiyi.lens.utils.LensConfig;
 import com.qiyi.lens.utils.SharedPreferenceUtils;
+import com.qiyi.lens.utils.UIUtils;
 import com.qiyi.lens.utils.Utils;
 import com.qiyi.lens.utils.configs.ABNTestConfig;
 import com.qiyi.lens.utils.event.DataCallBack;
@@ -102,7 +103,6 @@ public class DeviceInfoPanel extends FloatingPanel implements DataCallBack {
     @Override
     protected View onCreateView(ViewGroup parent) {
         View root = LayoutInflater.from(context).inflate(R.layout.lens_block_tab_info, null);
-        ViewCompat.setBackground(root, new ColorDrawable(context.getResources().getColor(R.color.lens_panel_default_color_light)));
         mLayout = root.findViewById(R.id.panel_container);
         mSettingBtn = root.findViewById(R.id.float_control_setting);
         mSettingBtn.setTag(TAB_SETTING);
@@ -253,6 +253,7 @@ public class DeviceInfoPanel extends FloatingPanel implements DataCallBack {
         WindowManager.LayoutParams wlp = new WindowManager.LayoutParams();
         wlp.width = width();
         wlp.height = -2;
+        wlp.x = UIUtils.dp2px(getActivity(),10);
         wlp.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;//WindowManager.LayoutParams.FLAG_FULLSCREEN
         if (Build.VERSION.SDK_INT >= 26) {
             wlp.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;

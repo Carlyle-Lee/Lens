@@ -35,6 +35,7 @@ public abstract class Info extends ClickableSpan implements Invalidate {
     protected List<Info> list;
     protected int level = 1;
     private int expandColor = 0xff843900;
+    private OnClickListener mOnClickListener;
 
     public Info(Invalidate par) {
         this.parent = new WeakReference<>(par);
@@ -47,15 +48,15 @@ public abstract class Info extends ClickableSpan implements Invalidate {
     @Override
     public void onClick(View view) {
         isExpand = !isExpand;
-
-
         if (isExpand) {
             if (list == null || list.isEmpty()) {
                 makeList(null);
+                setOnClickListener(mOnClickListener);
             }
         }
-
-
+        if(mOnClickListener != null) {
+            mOnClickListener.onClick(this);
+        }
         invalidate();
     }
 
@@ -87,6 +88,17 @@ public abstract class Info extends ClickableSpan implements Invalidate {
             }
         }
     }
+
+
+    public void setOnClickListener(OnClickListener listener){
+        mOnClickListener = listener;
+        if(list != null) {
+            for (Info info : list) {
+                info.setOnClickListener(listener);
+            }
+        }
+    }
+
 
     /**
      * StringBuilder builder = new StringBuilder();
@@ -173,5 +185,9 @@ public abstract class Info extends ClickableSpan implements Invalidate {
 
     public void reset() {
         isExpand = false;
+    }
+
+    public interface OnClickListener{
+        void onClick(Info info);
     }
 }

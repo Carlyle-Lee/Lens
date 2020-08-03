@@ -31,6 +31,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.CallSuper;
 
 import com.qiyi.lens.Constants;
+import com.qiyi.lens.LensUtil;
 import com.qiyi.lens.ui.widget.FrameAnimation;
 import com.qiyi.lens.utils.ApplicationLifecycle;
 import com.qiyi.lens.utils.TouchDelegateUtils;
@@ -84,9 +85,11 @@ public abstract class FloatingPanel extends BasePanel implements View.OnClickLis
         } else if (myInitState == ApplicationLifecycle.PANEL_STATE_CLOSE) {
             dismiss();
         } else {//[show state]
+            expandBtn.setVisibility(View.GONE);
             show();
         }
     }
+
 
     //[to crate view as content of this floating bar]
     protected abstract View onCreateView(ViewGroup viewGroup);
@@ -170,10 +173,10 @@ public abstract class FloatingPanel extends BasePanel implements View.OnClickLis
         if (isHidden) {
             mDecorView.getLayoutParams().width = mWd;
             frameAnimation.setVisibility(View.INVISIBLE);
+            expandBtn.setVisibility(View.GONE);
             frameAnimation.startShowAnimation(new FrameAnimation.OnAnimationEndListener() {
                 @Override
                 public void onEnd() {
-                    expandBtn.setVisibility(View.GONE);
                     frameAnimation.setVisibility(View.VISIBLE);
                     isHidden = false;
                 }
@@ -183,16 +186,27 @@ public abstract class FloatingPanel extends BasePanel implements View.OnClickLis
 
     public void hide() {
         if (!isHidden) {
-            frameAnimation.startFrameHideAnimation(new FrameAnimation.OnAnimationEndListener() {
-                @Override
-                public void onEnd() {
-                    frameAnimation.setVisibility(View.GONE);
-                    expandBtn.setVisibility(View.VISIBLE);
-                    mDecorView.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
-                    isHidden = true;
-                }
-            });
+            if(mDecorView.getParent() != null) {
+                frameAnimation.startFrameHideAnimation(new FrameAnimation.OnAnimationEndListener() {
+                    @Override
+                    public void onEnd() {
+                        handelHideAction();
+                    }
+                });
+                frameAnimation.invalidate();
+            } else {
+                handelHideAction();
+            }
         }
+    }
+
+    private void handelHideAction(){
+        frameAnimation.setVisibility(View.GONE);
+        expandBtn.setVisibility(View.VISIBLE);
+        if(mDecorView.getLayoutParams() != null) {
+            mDecorView.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+        }
+        isHidden = true;
     }
 
     public boolean isHidden() {
@@ -250,7 +264,7 @@ public abstract class FloatingPanel extends BasePanel implements View.OnClickLis
     }
 
     public int width() {
-        return mWd;
+        return isHidden ? -2: mWd;
     }
 
     public int offset() {

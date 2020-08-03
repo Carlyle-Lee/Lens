@@ -20,6 +20,7 @@ package com.qiyi.lens.ui;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -27,9 +28,10 @@ import android.widget.TextView;
 import com.qiyi.lens.ui.analyze.ActivityViewCategorizedInfoPanle;
 import com.qiyi.lens.ui.objectinfo.ObjectInfoPanel;
 import com.qiyi.lens.ui.viewtree.ViewTreePanel;
-import com.qiyi.lens.ui.widget.tableView.TableView;
 import com.qiyi.lens.utils.DataPool;
 import com.qiyi.lens.utils.ViewClassifyUtil;
+import com.qiyi.lens.utils.reflect.FragmentInfo;
+import com.qiyi.lens.utils.reflect.Info;
 import com.qiyi.lens.utils.reflect.ObjectFieldCollector;
 import com.qiyi.lenssdk.R;
 
@@ -39,7 +41,8 @@ import com.qiyi.lenssdk.R;
  * 1, 展示界面的AC, 展示界面的fragment 构成。
  * 2，新增 如果界面中有Dialog ， 则展示dialog 的类。
  */
-public class ActivityInfoPanel extends FullScreenPanel implements ObjectFieldCollector.DataRefreshCallback, View.OnClickListener, FullScreenPanel.OnDismissListener {
+public class ActivityInfoPanel extends FullScreenPanel implements ObjectFieldCollector.DataRefreshCallback,
+        View.OnClickListener, FullScreenPanel.OnDismissListener , Info.OnClickListener {
     private Activity activity;
     private ObjectFieldCollector collector;
     private TextView activityBaseInfoDisplay;
@@ -63,11 +66,6 @@ public class ActivityInfoPanel extends FullScreenPanel implements ObjectFieldCol
         TextView activityInfo = content.findViewById(R.id.panel_ac_info_activity);
         View maxLevelView = content.findViewById(R.id.lens_panel_ac_max_tree_level);
         viewCategorizedInfoView = content.findViewById(R.id.panel_ac_info_veiw_types);
-
-//        activityFieldInfoDisplay = content.findViewById(R.id.panel_ac_info_tv2);
-//        activityFieldInfoDisplay.setMovementMethod(LocalLinkMovementMethod.getInstance());
-//        activityFieldInfoDisplay.setLinksClickable(false);
-//        activityFieldInfoDisplay.setClickable(false);
         activityInfo.setOnClickListener(this);
         viewTreeInfo.setOnClickListener(this);
         maxLevelView.setOnClickListener(this);
@@ -102,6 +100,7 @@ public class ActivityInfoPanel extends FullScreenPanel implements ObjectFieldCol
         if (collector == null) {
             collector = new ObjectFieldCollector(activity);
             collector.setDataRefreshCallBack(this);
+            collector.setOnClickListener(this);
         }
 
         if (activityBaseInfoDisplay != null) {
@@ -190,5 +189,12 @@ public class ActivityInfoPanel extends FullScreenPanel implements ObjectFieldCol
             }
         }
 
+    }
+
+    @Override
+    public void onClick(Info info) {
+        if(info instanceof FragmentInfo) {
+
+        }
     }
 }

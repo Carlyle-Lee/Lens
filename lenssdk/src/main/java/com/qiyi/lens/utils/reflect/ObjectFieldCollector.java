@@ -62,7 +62,12 @@ public class ObjectFieldCollector implements Invalidate {
                 FieldInfo info = infoList.pop();
                 info.makeList(infoList);
             }
-            LL.d("MM", "size is :  " + objectHash.size());
+        }
+    }
+
+    public void setOnClickListener(Info.OnClickListener listener) {
+        if(info != null) {
+            info.setOnClickListener(listener);
         }
     }
 
