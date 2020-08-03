@@ -40,8 +40,8 @@ Lens  支持关注任意对象。被关注的对象将会再浮窗模块中显�
 #### Setup  
 ```Groovy
 dependencies {
-    debugImplementation 'com.iqiyi.lens:lens:1.2.3'
-    releaseImplementation 'com.iqiyi.lens:lens-no-op:1.2.3'
+    debugImplementation 'carl.lee.lens:lens:1.2.4'
+    releaseImplementation 'carl.lee.lens:lens-no-op:1.2.4'
 }
 ```
 
