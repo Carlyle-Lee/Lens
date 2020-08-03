@@ -2,9 +2,11 @@ package com.qiyi.lens.demo.test.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,7 +18,11 @@ public class FragmentB extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState){
 
-        View view = new View(getActivity());
+        TextView view = new TextView(getActivity());
+        view.setText(this.getClass().getSimpleName());
+        view.setGravity(Gravity.CENTER);
+        view.setTextSize(30);
+        view.setTextColor(Color.WHITE);
         view.setBackgroundColor(Color.RED);
         return view;
     }

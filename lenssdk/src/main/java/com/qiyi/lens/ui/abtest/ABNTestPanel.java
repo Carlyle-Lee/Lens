@@ -39,6 +39,7 @@ public class ABNTestPanel extends FullScreenPanel {
 
     public ABNTestPanel(FloatingPanel panel) {
         super(panel);
+        setTitle("AB Test");
     }
 
     @Override
@@ -50,8 +51,8 @@ public class ABNTestPanel extends FullScreenPanel {
     public void onViewCreated(View root) {
         super.onViewCreated(root);
         ListView listView = root.findViewById(R.id.lens_ab_test_panel_list);
-        ViewGroup group = root.findViewById(R.id.lens_ab_test_edit_sub_panel);
-        KeyValueSubPanelView subPanelView = new KeyValueSubPanelView(group);
+//        ViewGroup group = root.findViewById(R.id.lens_ab_test_edit_sub_panel);
+        KeyValueSubPanelView subPanelView = new KeyValueSubPanelView((ViewGroup) getDecorView());
         KeyDataAdapter adapter = new KeyDataAdapter(subPanelView);
         listView.setAdapter(adapter);
         if (adapter.getCount() == 1) {

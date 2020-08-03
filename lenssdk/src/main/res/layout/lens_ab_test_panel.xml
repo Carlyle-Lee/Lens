@@ -12,12 +12,12 @@
         android:dividerHeight="1px"
         />
 
-    <include layout="@layout/lens_abtest_sub_panel"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:visibility="gone"
-        android:layout_gravity="bottom"
-        android:id="@+id/lens_ab_test_edit_sub_panel"
-        />
+<!--    <include layout="@layout/lens_abtest_sub_panel"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="300dp"-->
+<!--        android:visibility="gone"-->
+<!--        android:layout_gravity="bottom"-->
+<!--        android:id="@+id/lens_ab_test_edit_sub_panel"-->
+<!--        />-->
 
 </FrameLayout>

@@ -125,8 +125,8 @@ public class DatabaseTablePanel extends FullScreenPanel implements UIStateCallBa
 
     private void showSubPanel(String key, Value value) {
         if (subPanelView == null) {
-            ViewGroup group = (ViewGroup) findViewById(R.id.lens_ab_test_edit_sub_panel);
-            subPanelView = new KeyValueSubPanelView(group);
+//            ViewGroup group = (ViewGroup) findViewById(R.id.lens_ab_test_edit_sub_panel);
+            subPanelView = new KeyValueSubPanelView((ViewGroup) getDecorView());
             subPanelView.setOnDismissCallback(new KeyValueSubPanelView.DismissCallback() {
                 @Override
                 public void onDismiss() {

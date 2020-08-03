@@ -199,7 +199,7 @@ public class ActivityInfoPanel extends FullScreenPanel implements ObjectFieldCol
             if (mSubViewPanel == null) {
                 mSubViewPanel = new FragmentCaptureSubPanel((ViewGroup) getDecorView());
             }
-
+            mSubViewPanel.showData((FragmentInfo) info);
         }
     }
 }

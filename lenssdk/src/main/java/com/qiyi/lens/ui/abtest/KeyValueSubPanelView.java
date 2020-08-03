@@ -27,9 +27,6 @@ import com.qiyi.lens.ui.abtest.content.ValueContent;
 import com.qiyi.lens.ui.widget.SubPanelView;
 import com.qiyi.lenssdk.R;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /*
 
  */
@@ -92,5 +89,7 @@ public class KeyValueSubPanelView extends SubPanelView<Pair<String, Value>> {
         }
         valueContent.loadView();
     }
+
+
 
 }

@@ -38,6 +38,7 @@ public class DumpTagsPanel extends FullScreenPanel {
     public DumpTagsPanel(FloatingPanel panel, String[] tags) {
         super(panel);
         this.mTags = tags;
+        setTitle("Data Dump");
     }
 
     @Override

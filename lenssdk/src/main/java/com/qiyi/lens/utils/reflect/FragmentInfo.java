@@ -128,6 +128,11 @@ public class FragmentInfo extends FieldInfo {
         return level;
     }
 
+
+    public View getFragmentRootView(){
+        return getFragmentRootView(value);
+    }
+
     @Override
     public String toString() {
         if (value != null) {

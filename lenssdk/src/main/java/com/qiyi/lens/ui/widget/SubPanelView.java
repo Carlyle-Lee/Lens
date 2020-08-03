@@ -17,13 +17,18 @@
  */
 package com.qiyi.lens.ui.widget;
 
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.LinearLayout;
 
 import androidx.annotation.CallSuper;
+import androidx.annotation.IdRes;
+import androidx.annotation.LayoutRes;
 
 import com.qiyi.lens.ui.abtest.content.ValueContent;
 import com.qiyi.lenssdk.R;
@@ -43,7 +48,10 @@ public abstract class SubPanelView<T> implements View.OnClickListener {
 
     public SubPanelView(ViewGroup root) {
         //[必须是viewGroup ]
-        viewRoot = (ViewGroup) root;
+        ViewGroup view = (ViewGroup) LayoutInflater.from(root.getContext()).inflate(R.layout.lens_abtest_sub_panel, root, false);
+        root.addView(view);
+        root =view;
+        viewRoot = (ViewGroup) view;
         viewContainer = root.findViewById(R.id.lens_sub_panel_container);
         closeBtn = root.findViewById(R.id.lens_sub_panel_close_btn);
         closeBtn.setOnClickListener(this);
@@ -139,6 +147,29 @@ public abstract class SubPanelView<T> implements View.OnClickListener {
 
     public ViewGroup getPanelRoot(){
         return viewContainer;
+    }
+
+    protected void attachView(View view) {
+        if(viewContainer != null) {
+            if(view.getLayoutParams() == null) {
+                view.setLayoutParams(new LinearLayout.LayoutParams(-1, -2));
+            }
+            viewContainer.addView(view);
+        }
+    }
+
+    protected void attachView(@LayoutRes int viewLayout) {
+        if(viewContainer != null) {
+            Context context = viewContainer.getContext();
+            LayoutInflater.from(context).inflate( viewLayout, viewContainer, true);
+        }
+    }
+
+    protected View findViewById(@IdRes int id){
+        if(viewContainer != null) {
+            return viewContainer.findViewById(id);
+        }
+        return null;
     }
 
 

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="300dp"
     android:orientation="vertical"
+    android:id="@+id/lens_ab_test_edit_sub_panel"
+    android:layout_gravity="bottom"
     android:background="#BBF0F8FF">
     <View
         android:layout_width="match_parent"

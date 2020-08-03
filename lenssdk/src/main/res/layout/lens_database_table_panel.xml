@@ -5,12 +5,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/lens_ab_test_edit_sub_panel"
-        layout="@layout/lens_abtest_sub_panel"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_gravity="bottom"
-        android:visibility="gone" />
+<!--    <include-->
+<!--        android:id="@+id/lens_ab_test_edit_sub_panel"-->
+<!--        layout="@layout/lens_abtest_sub_panel"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="300dp"-->
+<!--        android:layout_gravity="bottom"-->
+<!--        android:visibility="gone" />-->
 
 </LinearLayout>
