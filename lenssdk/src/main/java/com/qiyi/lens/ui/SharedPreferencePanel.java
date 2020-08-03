@@ -28,6 +28,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +41,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.qiyi.lens.obj.SPItem;
-import com.qiyi.lens.ui.abtest.SubPanelView;
+import com.qiyi.lens.ui.abtest.KeyValueSubPanelView;
 import com.qiyi.lens.ui.abtest.Value;
 import com.qiyi.lens.utils.DataPool;
 import com.qiyi.lens.utils.SharedPreferencesHelper;
@@ -70,7 +71,7 @@ public class SharedPreferencePanel extends FullScreenPanel implements UIStateCal
     private String mKey;
     private ClipboardManager myClipboard;
     private SharedPreferencesHelper mSharedPreferencesHelper;
-    private SubPanelView subPanelView;
+    private KeyValueSubPanelView subPanelView;
 
     public SharedPreferencePanel(FloatingPanel panel) {
         super(panel);
@@ -323,8 +324,8 @@ public class SharedPreferencePanel extends FullScreenPanel implements UIStateCal
     private void showSubPanel(String key, Value value) {
         if (subPanelView == null) {
             ViewGroup group = (ViewGroup) findViewById(R.id.lens_ab_test_edit_sub_panel);
-            subPanelView = new SubPanelView(group);
-            subPanelView.setOnDismissCallback(new SubPanelView.DismissCallback() {
+            subPanelView = new KeyValueSubPanelView(group);
+            subPanelView.setOnDismissCallback(new KeyValueSubPanelView.DismissCallback() {
                 @Override
                 public void onDismiss() {
                     if (mKey != null && mKey.length() > 0) {
@@ -333,7 +334,7 @@ public class SharedPreferencePanel extends FullScreenPanel implements UIStateCal
                 }
             });
         }
-        subPanelView.showData(key, value);
+        subPanelView.showData(new Pair<String, Value>(key, value));
     }
 
 

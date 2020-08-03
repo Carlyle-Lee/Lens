@@ -15,7 +15,7 @@
  * limitations under the License.
  *
  */
-package com.qiyi.lens.ui.abtest;
+package com.qiyi.lens.ui.widget;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,27 +23,20 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 
-import com.qiyi.lens.ui.abtest.content.EditTextContent;
-import com.qiyi.lens.ui.abtest.content.RadioBoxContent;
+import androidx.annotation.CallSuper;
+
 import com.qiyi.lens.ui.abtest.content.ValueContent;
 import com.qiyi.lenssdk.R;
 
-/*
-
- */
 
 /**
- * 其实就两种编辑状
- * 1, 固定内容编辑； 选择index
- * 2， 自己edit 内容编辑；
- * <p>
- * sub panel to display all value candidates.
+ * 底部面板
  */
-public class SubPanelView implements View.OnClickListener {
+public abstract class SubPanelView<T> implements View.OnClickListener {
     private ViewGroup viewRoot;
     private ViewGroup viewContainer;
     private View closeBtn;
-    private int dur = 200;
+    private int dur = 100;
     private ValueContent valueContent;
     private String _key;
     private DismissCallback _callback;
@@ -58,11 +51,11 @@ public class SubPanelView implements View.OnClickListener {
 
 
     //[attach content view into parent]
-    public void showData(String key, Value value) {
-        _key = key;
-        if (value != null) {
+    @CallSuper
+    public void showData(T data) {
+        if (data != null) {
             //[do show]
-            loadContentView(value);
+            loadContentView(data);
             if (viewRoot.getVisibility() != View.VISIBLE) {
                 viewRoot.setVisibility(View.VISIBLE);
                 TranslateAnimation translateAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0
@@ -133,23 +126,7 @@ public class SubPanelView implements View.OnClickListener {
     }
 
     //[viewContainer as parent to load view]
-    private void loadContentView(Value value) {
-
-        if (valueContent != null) {
-            if (!valueContent.tryLoad(_key, value)) {
-                valueContent = null;
-            }
-        }
-        if (valueContent == null) {
-            if (value.isSelectableValue()) {
-                valueContent = new RadioBoxContent(viewContainer, _key, value);
-            } else {
-                valueContent = new EditTextContent(viewContainer, _key, value);
-                valueContent.setPanel(this);
-            }
-        }
-        valueContent.loadView();
-    }
+    protected abstract void loadContentView(T value);
 
 
     public void setOnDismissCallback(DismissCallback call) {
@@ -158,6 +135,10 @@ public class SubPanelView implements View.OnClickListener {
 
     public interface DismissCallback {
         void onDismiss();
+    }
+
+    public ViewGroup getPanelRoot(){
+        return viewContainer;
     }
 
 

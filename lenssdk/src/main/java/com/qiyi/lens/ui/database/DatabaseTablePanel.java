@@ -19,6 +19,7 @@ package com.qiyi.lens.ui.database;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
@@ -30,7 +31,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.qiyi.lens.ui.FloatingPanel;
 import com.qiyi.lens.ui.FullScreenPanel;
 import com.qiyi.lens.ui.UIStateCallBack;
-import com.qiyi.lens.ui.abtest.SubPanelView;
+import com.qiyi.lens.ui.abtest.KeyValueSubPanelView;
 import com.qiyi.lens.ui.abtest.Value;
 import com.qiyi.lens.utils.SimpleTask;
 import com.qiyi.lens.utils.UIUtils;
@@ -46,7 +47,7 @@ public class DatabaseTablePanel extends FullScreenPanel implements UIStateCallBa
     private DBRecyclerView mRecyclerView;
     private CommonDBAdapter mAdapter;
     private TextView panelTitle;
-    private SubPanelView subPanelView;
+    private KeyValueSubPanelView subPanelView;
     private int mKey;
     // true: table's info; false: table's content
     private boolean mode;
@@ -133,15 +134,15 @@ public class DatabaseTablePanel extends FullScreenPanel implements UIStateCallBa
     private void showSubPanel(String key, Value value) {
         if (subPanelView == null) {
             ViewGroup group = (ViewGroup) findViewById(R.id.lens_ab_test_edit_sub_panel);
-            subPanelView = new SubPanelView(group);
-            subPanelView.setOnDismissCallback(new SubPanelView.DismissCallback() {
+            subPanelView = new KeyValueSubPanelView(group);
+            subPanelView.setOnDismissCallback(new KeyValueSubPanelView.DismissCallback() {
                 @Override
                 public void onDismiss() {
 
                 }
             });
         }
-        subPanelView.showData(key, value);
+        subPanelView.showData(new Pair<String, Value>(key, value));
     }
 
     @Override

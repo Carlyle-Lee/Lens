@@ -20,14 +20,14 @@ package com.qiyi.lens.ui.abtest.content;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.qiyi.lens.ui.abtest.SubPanelView;
+import com.qiyi.lens.ui.abtest.KeyValueSubPanelView;
 import com.qiyi.lens.ui.abtest.Value;
 
 public abstract class ValueContent {
     Value _value;
     ViewGroup _parent;
     String _key;
-    SubPanelView _panelView;
+    KeyValueSubPanelView _panelView;
 
     public ValueContent(ViewGroup parent, String key, Value value) {
         _value = value;
@@ -35,7 +35,7 @@ public abstract class ValueContent {
         _key = key;
     }
 
-    public void setPanel(SubPanelView panel) {
+    public void setPanel(KeyValueSubPanelView panel) {
         _panelView = panel;
     }
 

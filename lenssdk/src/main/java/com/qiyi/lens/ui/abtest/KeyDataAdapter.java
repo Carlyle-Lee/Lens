@@ -18,6 +18,7 @@
 package com.qiyi.lens.ui.abtest;
 
 import android.graphics.Color;
+import android.util.Pair;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,11 +35,11 @@ import com.qiyi.lens.utils.configs.ABNTestConfig;
 public class KeyDataAdapter extends BaseAdapter implements View.OnClickListener {
 
     private String[] keys;
-    private SubPanelView subPanelView;
+    private KeyValueSubPanelView subPanelView;
     private int textViewPadding = 10;
     private int selectedIndex = -1;
 
-    KeyDataAdapter(SubPanelView subPanelView) {
+    KeyDataAdapter(KeyValueSubPanelView subPanelView) {
         keys = ABNTestConfig.getInstance().getKeys();
         this.subPanelView = subPanelView;
         textViewPadding = UIUtils.dp2px(ApplicationLifecycle.getInstance().getContext(), 8);
@@ -107,7 +108,7 @@ public class KeyDataAdapter extends BaseAdapter implements View.OnClickListener 
         selectedIndex = index;
         Value value = ABNTestConfig.getInstance().getValue(key);
         if (value != null) {
-            subPanelView.showData(key, value);
+            subPanelView.showData(new Pair<String, Value>(key, value));
             notifyDataSetChanged();
         }
     }
