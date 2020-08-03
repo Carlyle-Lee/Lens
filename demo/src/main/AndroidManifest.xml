@@ -35,6 +35,8 @@
         <activity android:name=".test.DemoAC">
 
         </activity>
+        
+        <activity android:name=".test.fragment.FragmentAC"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"

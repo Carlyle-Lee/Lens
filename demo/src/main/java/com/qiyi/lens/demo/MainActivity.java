@@ -37,7 +37,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 
-import com.qiyi.lens.LensUtil;
+import com.qiyi.lens.demo.test.fragment.FragmentAC;
 
 import org.qiyi.basecore.taskmanager.TickTask;
 
@@ -137,7 +137,7 @@ public class MainActivity extends Activity implements AbsListView.OnScrollListen
             // used in ViewPick row select demo：
             private View inflate0(View view, ViewGroup viewGroup) {
                 if (view == null) {
-                    view = LayoutInflater.from(viewGroup.getContext()).
+                    view = LayoutInflater.from(MainActivity.this).
                             inflate(R.layout.test_list_item_view, viewGroup, false);
 
                     return view;
@@ -174,7 +174,7 @@ public class MainActivity extends Activity implements AbsListView.OnScrollListen
                             if (i == 0) {
                                 MainActivity.this.startActivity(new Intent(MainActivity.this, TestViewInfoActivity.class));
                             } else if (i == 1) {
-                                LensUtil.showManually(MainActivity.this);
+                                MainActivity.this.startActivity(new Intent(MainActivity.this, FragmentAC.class));
                             } else if (i == 2) {
                                 TextView popupContentView = new TextView(MainActivity.this);
                                 popupContentView.setText("popup content");
