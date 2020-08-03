@@ -21,12 +21,14 @@ import android.app.Application;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.lens.hook.utils.HookWrapper;
 import com.qiyi.lens.Lens;
 import com.qiyi.lens.LensUtil;
 import com.qiyi.lens.demo.actions.BlockFactory;
 import com.qiyi.lens.demo.actions.JumpAction;
 import com.qiyi.lens.demo.dump.Dump;
 import com.qiyi.lens.demo.dump.MyDumpFactory;
+import com.qiyi.lens.demo.utils.HookImpl;
 import com.qiyi.lens.dump.IDebugStatusChanged;
 import com.qiyi.lens.utils.LL;
 import com.qiyi.lens.utils.LensConfig;
@@ -97,6 +99,7 @@ public class LensApplicationDelegate {
         LensUtil.setReporter(new LensReporter(mApplication));
         LensUtil.buildConfig()
                 .defaultOpen(false)
+                .setHookFrameWorkImpl(new HookImpl())
 //                .enableDeviceInfo(true)
 //                .enableKeyLog(KeyLogConfig.builder().addFilter("Main").setMaxLine(1000))
 //                .enableFPS(true)

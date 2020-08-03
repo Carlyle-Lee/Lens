@@ -36,6 +36,7 @@ public class ExceptionPanel extends FullScreenPanel implements View.OnClickListe
 
     public ExceptionPanel(FloatingPanel panel) {
         super(panel);
+        setTitle(R.string.lens_exception_title);
     }
 
 
@@ -44,21 +45,18 @@ public class ExceptionPanel extends FullScreenPanel implements View.OnClickListe
             displayInfo = Utils.throwable2String(throwable).toString();
         }
         customValues = vars;
-
         return this;
-
     }
 
     @Override
     protected View onCreateView(ViewGroup viewGroup) {
         View content = inflateView(R.layout.lens_exception_panel, viewGroup);
-        TextView title = content.findViewById(R.id.len_title_bar_title);
-        title.setText(R.string.lens_exception_title);
         if (displayInfo != null) {
             TextView textView = content.findViewById(R.id.detail_info);
             textView.setText(displayInfo);
         }
         TextView btnPush = content.findViewById(R.id.len_title_bar_operation);
+
         btnPush.setVisibility(View.VISIBLE);
         btnPush.setText("PUSH");
         btnPush.setOnClickListener(new View.OnClickListener() {
@@ -67,12 +65,7 @@ public class ExceptionPanel extends FullScreenPanel implements View.OnClickListe
                 DataTransferManager.getInstance().push2Web(displayInfo);
             }
         });
-        content.findViewById(R.id.len_title_bar_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dismiss();
-            }
-        });
+
         container = content.findViewById(R.id.lens_current_view_container);
 
         if (customValues != null) {

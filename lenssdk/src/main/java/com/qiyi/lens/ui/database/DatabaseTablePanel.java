@@ -24,7 +24,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 
@@ -46,7 +45,6 @@ public class DatabaseTablePanel extends FullScreenPanel implements UIStateCallBa
     public Context mContext;
     private DBRecyclerView mRecyclerView;
     private CommonDBAdapter mAdapter;
-    private TextView panelTitle;
     private KeyValueSubPanelView subPanelView;
     private int mKey;
     // true: table's info; false: table's content
@@ -54,19 +52,16 @@ public class DatabaseTablePanel extends FullScreenPanel implements UIStateCallBa
     private String table;
     private String primaryKey;
     private GridItem clickedItem;
-    private String realTimeQueryCondition;
 
     public DatabaseTablePanel(FloatingPanel panel) {
         super(panel);
         mContext = context;
+        setTitle(R.string.lens_common_title_bar_database);
     }
 
     @Override
     protected View onCreateView(ViewGroup viewGroup) {
         View content = inflateView(R.layout.lens_database_table_panel, viewGroup);
-        content.findViewById(R.id.len_title_bar_back).setOnClickListener(this);
-        panelTitle = content.findViewById(R.id.len_title_bar_title);
-
         LinearLayout container = content.findViewById(R.id.lens_tab_container);
         HorizontalScrollView scrollView = new HorizontalScrollView(getContext());
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
@@ -118,7 +113,7 @@ public class DatabaseTablePanel extends FullScreenPanel implements UIStateCallBa
             }
         });
         loadData(null);
-        setPanelTitle(table);
+        setTitle(table);
     }
 
     void initCondition(NameItem item, int key) {
@@ -127,9 +122,6 @@ public class DatabaseTablePanel extends FullScreenPanel implements UIStateCallBa
         primaryKey = LensProvider.get().getDatabases().getPrimaryKey(mKey, table);
     }
 
-    private void setPanelTitle(String title) {
-        panelTitle.setText(title);
-    }
 
     private void showSubPanel(String key, Value value) {
         if (subPanelView == null) {
@@ -147,10 +139,7 @@ public class DatabaseTablePanel extends FullScreenPanel implements UIStateCallBa
 
     @Override
     public void onClick(View v) {
-        int id = v.getId();
-        if (id == R.id.len_title_bar_back) {
-            dismiss();
-        }
+
     }
 
     private void loadData(final String condition) {

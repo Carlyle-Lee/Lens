@@ -19,15 +19,13 @@ package com.qiyi.lens.ui.database;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
+import android.util.SparseArray;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.SparseArray;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.qiyi.lens.ui.FloatingPanel;
 import com.qiyi.lens.ui.FullScreenPanel;
@@ -43,7 +41,6 @@ public class DatabasePanel extends FullScreenPanel implements UIStateCallBack, V
     private Context mContext;
     private DBRecyclerView mRecyclerView;
     private CommonDBAdapter mAdapter;
-    private TextView panelTitle;
     private DatabaseTableListPanel tablePanel;
 
     private boolean isBase = true;
@@ -51,14 +48,12 @@ public class DatabasePanel extends FullScreenPanel implements UIStateCallBack, V
     public DatabasePanel(FloatingPanel panel) {
         super(panel);
         mContext = context;
+        setTitle(R.string.lens_common_title_bar_database);
     }
 
     @Override
     protected View onCreateView(ViewGroup viewGroup) {
         View content = inflateView(R.layout.lens_database_panel, viewGroup);
-        content.findViewById(R.id.len_title_bar_back).setOnClickListener(this);
-        panelTitle = content.findViewById(R.id.len_title_bar_title);
-        setPanelTitle(mContext.getString(R.string.lens_common_title_bar_database));
         mRecyclerView = content.findViewById(R.id.len_database_recycler_view);
         installRecyclerView(mRecyclerView);
         return content;
@@ -69,11 +64,6 @@ public class DatabasePanel extends FullScreenPanel implements UIStateCallBack, V
     }
 
 
-    private void setPanelTitle(String title) {
-        if(panelTitle != null) {
-            panelTitle.setText(title);
-        }
-    }
     public CommonDBAdapter getAdapter() {
         return mAdapter;
     }
@@ -132,10 +122,7 @@ public class DatabasePanel extends FullScreenPanel implements UIStateCallBack, V
 
     @Override
     public void onClick(View v) {
-        int id = v.getId();
-        if (id == R.id.len_title_bar_back) {
-            dismiss();
-        }
+
     }
 
 }

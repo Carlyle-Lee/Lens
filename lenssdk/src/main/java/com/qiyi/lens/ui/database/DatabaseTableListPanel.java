@@ -71,10 +71,7 @@ public class DatabaseTableListPanel extends DatabasePanel {
 
     @Override
     public void onClick(View v) {
-        int id = v.getId();
-        if (id == R.id.len_title_bar_back) {
-            dismiss();
-        }
+
     }
 
 }

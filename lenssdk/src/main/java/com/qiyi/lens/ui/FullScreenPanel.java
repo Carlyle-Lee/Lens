@@ -69,7 +69,7 @@ public class FullScreenPanel extends BasePanel implements UIStateCallBack {
     //if metaInfo or titleInfo has been set , this panel will show Title Bar
     private String mMetaInfo;
     private String mTitleInfo;
-    private Drawable mBackgroundDrawable;
+    private DefaultTitleBinder titleBinder;
 
     public FullScreenPanel(FloatingPanel panel) {
         wkFloatPanel = new WeakReference<>(panel);
@@ -103,21 +103,20 @@ public class FullScreenPanel extends BasePanel implements UIStateCallBack {
     protected int genTitleBinder() {
         if (!Utils.isEmpty(mMetaInfo) || !Utils.isEmpty(mTitleInfo)) {
             //inflate TitleView
-            return new DefaultTitleBinder(this, viewGroup)
+            titleBinder = new DefaultTitleBinder(this, viewGroup)
                     .create()
                     .title(mTitleInfo)
-                    .meta(mMetaInfo)
-                    .bind();
+                    .meta(mMetaInfo);
+            return titleBinder.bind();
 
         }
         return 0;
     }
 
 
-    protected Drawable generateBackgroundDrawable(){
+    protected Drawable generateBackgroundDrawable() {
         return new ColorDrawable(Color.WHITE);
     }
-
 
 
     private void createContentView(ViewGroup viewGroup, int topPadding) {
@@ -125,7 +124,7 @@ public class FullScreenPanel extends BasePanel implements UIStateCallBack {
         if (view == null) {
             view = new View(viewGroup.getContext());
         }
-        if(view.getBackground() == null){
+        if (view.getBackground() == null) {
             view.setBackgroundDrawable(generateBackgroundDrawable());
         }
         mContentView = view;
@@ -400,6 +399,9 @@ public class FullScreenPanel extends BasePanel implements UIStateCallBack {
      */
     public void setTitle(String title) {
         mTitleInfo = title;
+        if (titleBinder != null) {
+            titleBinder.updateTitle(title);
+        }
     }
 
     /**
@@ -418,6 +420,9 @@ public class FullScreenPanel extends BasePanel implements UIStateCallBack {
      */
     public void setMeta(String meta) {
         mMetaInfo = meta;
+        if(titleBinder != null) {
+            titleBinder.updateMeta(meta);
+        }
     }
 
     /**

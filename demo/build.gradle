@@ -44,4 +44,6 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.0.0"
     implementation 'com.iqiyi.taskmanager:taskmanager:1.3.7'
     implementation "com.squareup.okhttp3:okhttp:${okhttpVersion}"
+    debugImplementation 'carl.lee.yhook:lens-yhook:1.1.0'
+
 }

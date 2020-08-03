@@ -69,4 +69,15 @@ public class DefaultTitleBinder {
         return context.getResources().getDimensionPixelSize(R.dimen.lens_default_title_bar_height);
     }
 
+    public void updateTitle(String title) {
+        if (mTitleView != null) {
+            mTitleView.setText(title == null ? "" : title);
+        }
+    }
+
+    public void updateMeta(String meta) {
+        if (mMetaView != null) {
+            mMetaView.setText(meta == null ? "" : meta);
+        }
+    }
 }
