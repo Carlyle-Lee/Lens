@@ -20,6 +20,7 @@ package com.qiyi.lens.ui.widget;
 import android.os.Handler;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
@@ -32,8 +33,9 @@ import static java.lang.System.currentTimeMillis;
  */
 
 public class ViewInAnimation extends Animation {
-    private View _view;
-    private int visible;
+    private View[] mviews;
+    private View mRootView;
+    private int[] visibles;
     private BasePanel _panel;
     private long now = 0L;
     private long offset = -1;
@@ -51,16 +53,18 @@ public class ViewInAnimation extends Animation {
         mFromYDelta = fromYDelta;
         mToYDelta = toYDelta;
         _panel = panel;
-        _view = panel.getContentView();
-        visible = _view.getVisibility();
-        _view.setVisibility(View.GONE);
+        mRootView = panel.getDecorView();
+        mviews = loadViews((ViewGroup) panel.getDecorView());
+//        visible = _view.getVisibility();
+//        _view.setVisibility(View.GONE);
+        setVisibility(View.GONE);
         this.setDuration(300);
         this.setAnimationListener(new AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
 //                    _view.setVisibility(View.VISIBLE);
                 updateTranslationInfo();
-                _view = null;
+                mviews = null;
 
             }
 
@@ -78,6 +82,40 @@ public class ViewInAnimation extends Animation {
 
     }
 
+    private void setVisibility(int visibility) {
+        if(mviews != null) {
+            for (View view : mviews) {
+                view.setVisibility(visibility);
+            }
+        }
+    }
+
+    private void startAnimation(){
+        if(mviews != null) {
+            for (View view : mviews) {
+                view.setVisibility(View.VISIBLE);
+                view.setAnimation(ViewInAnimation.this);
+                view.invalidate();
+            }
+        }
+
+    }
+
+    private View[] loadViews(ViewGroup group) {
+
+        if (group != null) {
+            int count = group.getChildCount();
+            visibles = new int[count];
+            View[] views = new View[count];
+            for (int i = 0; i < count; i++) {
+                views[i] = group.getChildAt(i);
+                visibles[i] = views[i].getVisibility();
+            }
+            return views;
+        }
+        return new View[]{group};
+    }
+
     public long getStartOffset() {
         if (now != 0) {
             if (offset < 0) {
@@ -89,22 +127,20 @@ public class ViewInAnimation extends Animation {
     }
 
     public void start() {
-        _view.setVisibility(View.VISIBLE);
-        _view.setAnimation(ViewInAnimation.this);
         now = currentTimeMillis();
+        startAnimation();
         super.start();
-        _view.invalidate();
     }
+
+
 
     public void startAnimationDelay(Handler handler, int dur) {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                _view.setVisibility(View.VISIBLE);
-                _view.setAnimation(ViewInAnimation.this);
+                setVisibility(View.VISIBLE);
                 now = currentTimeMillis();
                 ViewInAnimation.this.start();
-                _view.invalidate();
             }
         }, dur);
     }
@@ -131,9 +167,9 @@ public class ViewInAnimation extends Animation {
     private void updateTranslationInfo() {
         if (_gra != 0) {
             if (_gra == Gravity.BOTTOM) {
-                mFromYDelta = _view.getHeight();
+                mFromYDelta = mRootView.getHeight();
             } else {
-                mFromXDelta = _view.getWidth();
+                mFromXDelta = mRootView.getWidth();
             }
         }
     }

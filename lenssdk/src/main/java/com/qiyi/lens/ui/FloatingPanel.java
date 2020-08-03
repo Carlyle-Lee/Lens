@@ -172,6 +172,7 @@ public abstract class FloatingPanel extends BasePanel implements View.OnClickLis
     public void expand() {
         if (isHidden) {
             mDecorView.getLayoutParams().width = mWd;
+            viewManager.invalidate();
             frameAnimation.setVisibility(View.INVISIBLE);
             expandBtn.setVisibility(View.GONE);
             frameAnimation.startShowAnimation(new FrameAnimation.OnAnimationEndListener() {
