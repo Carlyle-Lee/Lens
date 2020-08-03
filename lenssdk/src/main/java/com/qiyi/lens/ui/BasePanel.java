@@ -27,6 +27,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.CallSuper;
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
 
 import com.qiyi.lens.dynamic.LensContext;
 import com.qiyi.lens.utils.ApplicationLifecycle;
@@ -158,4 +161,8 @@ public abstract class BasePanel implements IPanel {
     }
     protected void onPause(){}
     protected void onResume(){}
+    public int getColor(@ColorRes int res){
+        Context context = getContext();
+        return context.getResources().getColor(res);
+    }
 }

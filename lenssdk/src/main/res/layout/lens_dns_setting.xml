@@ -6,20 +6,6 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="网络分析设置"
-        android:textColor="#ff000000"
-        android:textSize="18dp" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/black_051b28"
-        />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

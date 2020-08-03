@@ -71,6 +71,7 @@ public class DNSSettingPanel extends FullScreenPanel {
         itemPadding = UIUtils.dp2px(context, 20);
         itemMinHeight = UIUtils.dp2px(context, itemMinHeight);
         itemMinWidth = UIUtils.dp2px(context, itemMinWidth);
+        setTitle(R.string.lens_panel_net_setting);
     }
 
     @Override
@@ -137,7 +138,8 @@ public class DNSSettingPanel extends FullScreenPanel {
         // test enviranment
         builder.setColumnCountRowCount(2, 1)
                 .setColumnNames(new String[]{"host", "IP"})
-                .setColumnNamesColor(Color.GRAY).setNamesTextSize(18)
+                .setColumnNamesColor(getColor(R.color.lens_panel_default_dark_color)).setNamesTextSize(18)
+                .setStretchableColumns(0,1)
                 .enableExtraCol().setTableView(tableView).setStrokeWidth(3, 5)
                 .setDataBinder(new TableBuilder.ItemDataBinder() {
                     @Override
@@ -347,8 +349,9 @@ public class DNSSettingPanel extends FullScreenPanel {
         filterBuilder.setTableView(tableView)
                 .enableExtraCol()
                 .setColumnNames(new String[]{"hosts"})
+                .setStretchableColumns(0)
                 .setColumnCountRowCount(1, 0)
-                .setColumnNamesColor(Color.GRAY).setStrokeWidth(3, 5)
+                .setColumnNamesColor(getColor(R.color.lens_panel_default_dark_color)).setStrokeWidth(3, 5)
                 .setDataBinder(new TableBuilder.ItemDataBinder() {
                     @Override
                     public void bindData(String data, View view, int row, int column) {

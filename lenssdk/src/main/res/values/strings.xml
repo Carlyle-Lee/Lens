@@ -74,6 +74,7 @@
     <string name="lens_panle_ac_ana_title">界面分析</string>
     <string name="lens_panle_ac_view_tree_title">视图树</string>
     <string name="lens_panle_ac_setting_title">设置</string>
+    <string name="lens_panel_net_setting">网络分析设置</string>
 
 
 </resources>
