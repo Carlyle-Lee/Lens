@@ -74,6 +74,7 @@ public class SharedPreferencePanel extends FullScreenPanel implements UIStateCal
 
     public SharedPreferencePanel(FloatingPanel panel) {
         super(panel);
+        setTitle(R.string.lens_SharedPreference);
     }
 
     private List<String> spFiles = new ArrayList<>(); //使用前须清除 spFiles.clear()
@@ -81,9 +82,11 @@ public class SharedPreferencePanel extends FullScreenPanel implements UIStateCal
     @Override
     protected View onCreateView(ViewGroup viewGroup) {
         final View content = inflateView(R.layout.lens_sharedpreference_panel, viewGroup);
-        content.findViewById(R.id.len_title_bar_back).setOnClickListener(this);
-        TextView title = content.findViewById(R.id.len_title_bar_title);
-        title.setText(context.getString(R.string.lens_SharedPreference));
+//        content.findViewById(R.id.len_title_bar_back).setOnClickListener(this);
+//        TextView title = content.findViewById(R.id.len_title_bar_title);
+//        title.setText(context.getString(R.string.lens_SharedPreference));
+
+
         EditText mSearchKey = content.findViewById(R.id.lens_search_sp);
         mSearchKey.setOnClickListener(this);
         mSearchKey.addTextChangedListener(mSearchTextWatcher);

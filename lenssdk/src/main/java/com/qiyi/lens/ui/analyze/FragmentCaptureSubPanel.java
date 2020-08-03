@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 
 import com.qiyi.lens.ui.abtest.SubPanelView;
+import com.qiyi.lens.utils.reflect.FragmentInfo;
 
 /**
  * 模块： 页面分析
@@ -13,17 +14,15 @@ import com.qiyi.lens.ui.abtest.SubPanelView;
  */
 public class FragmentCaptureSubPanel extends SubPanelView {
 
+    private FragmentInfo mFragmentInfo;
+
     public FragmentCaptureSubPanel(ViewGroup root) {
         super(root);
     }
 
 
-    public void add(Fragment fragment){
-
-    }
-
-    public void remove(Fragment fragment) {
-
+    public void setFragmentInfo(FragmentInfo fragmentInfo) {
+        mFragmentInfo = fragmentInfo;
     }
 }
 

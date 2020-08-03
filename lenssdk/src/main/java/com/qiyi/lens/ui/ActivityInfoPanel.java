@@ -20,12 +20,12 @@ package com.qiyi.lens.ui;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.qiyi.lens.ui.analyze.ActivityViewCategorizedInfoPanle;
+import com.qiyi.lens.ui.analyze.FragmentCaptureSubPanel;
 import com.qiyi.lens.ui.objectinfo.ObjectInfoPanel;
 import com.qiyi.lens.ui.viewtree.ViewTreePanel;
 import com.qiyi.lens.utils.DataPool;
@@ -42,7 +42,7 @@ import com.qiyi.lenssdk.R;
  * 2，新增 如果界面中有Dialog ， 则展示dialog 的类。
  */
 public class ActivityInfoPanel extends FullScreenPanel implements ObjectFieldCollector.DataRefreshCallback,
-        View.OnClickListener, FullScreenPanel.OnDismissListener , Info.OnClickListener {
+        View.OnClickListener, FullScreenPanel.OnDismissListener, Info.OnClickListener {
     private Activity activity;
     private ObjectFieldCollector collector;
     private TextView activityBaseInfoDisplay;
@@ -50,6 +50,8 @@ public class ActivityInfoPanel extends FullScreenPanel implements ObjectFieldCol
     private ViewClassifyUtil util;
     private ObjectFieldCollector.Binder dataBinder;
     private View viewCategorizedInfoView;
+    // 用于展示fragment 信息
+    private FragmentCaptureSubPanel mSubViewPanel;
 
     public ActivityInfoPanel(FloatingPanel panel) {
         super(panel);
@@ -193,7 +195,10 @@ public class ActivityInfoPanel extends FullScreenPanel implements ObjectFieldCol
 
     @Override
     public void onClick(Info info) {
-        if(info instanceof FragmentInfo) {
+        if (info instanceof FragmentInfo) {
+            if (mSubViewPanel == null) {
+                mSubViewPanel = new FragmentCaptureSubPanel((ViewGroup) getDecorView());
+            }
 
         }
     }
