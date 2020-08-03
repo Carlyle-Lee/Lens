@@ -52,8 +52,8 @@ public class ABNTestPanel extends FullScreenPanel {
         super.onViewCreated(root);
         ListView listView = root.findViewById(R.id.lens_ab_test_panel_list);
 //        ViewGroup group = root.findViewById(R.id.lens_ab_test_edit_sub_panel);
-        KeyValueSubPanelView subPanelView = new KeyValueSubPanelView((ViewGroup) getDecorView());
-        KeyDataAdapter adapter = new KeyDataAdapter(subPanelView);
+
+        KeyDataAdapter adapter = new KeyDataAdapter((ViewGroup) getDecorView());
         listView.setAdapter(adapter);
         if (adapter.getCount() == 1) {
             adapter.showSelector(0);

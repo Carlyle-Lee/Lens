@@ -60,6 +60,11 @@ public class ViewManager {
                     contentView.setY(contentView.getY() + dy);
                 }
 
+                @Override
+                public void invalidate() {
+                    contentView.invalidate();
+                }
+
             };
         } else {
             return new FloatWindowManager(activity);
@@ -72,6 +77,8 @@ public class ViewManager {
         void removeView(View view);
 
         void handleMove(float dx, float dy);
+
+        void invalidate();
     }
 
     static class FloatWindowManager implements IViewManager {
@@ -99,6 +106,11 @@ public class ViewManager {
         public void handleMove(float dx, float dy) {
             clp.x += dx;
             clp.y += dy;
+            windowManager.updateViewLayout(rootView, clp);
+        }
+
+        @Override
+        public void invalidate() {
             windowManager.updateViewLayout(rootView, clp);
         }
 

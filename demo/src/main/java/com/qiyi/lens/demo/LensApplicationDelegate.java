@@ -75,7 +75,6 @@ public class LensApplicationDelegate {
         LensUtil.addABTest("test_String", new String[]{"aaa", "bbb", "ccc"});
         LensUtil.addABTest("test_boolean");
         LensUtil.addABTest("test_select_int", new int[]{});
-        LensUtil.addABTest("test_select_string", new String[]{});
 
         NetworkAnalyzeConfig.getInstance().setNetConfig(new INetConfig() {
             @Override

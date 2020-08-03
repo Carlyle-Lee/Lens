@@ -38,10 +38,11 @@ public class KeyDataAdapter extends BaseAdapter implements View.OnClickListener 
     private KeyValueSubPanelView subPanelView;
     private int textViewPadding = 10;
     private int selectedIndex = -1;
+    private ViewGroup mViewRoot;
 
-    KeyDataAdapter(KeyValueSubPanelView subPanelView) {
+    KeyDataAdapter(ViewGroup viewGroup) {
+        mViewRoot = viewGroup;
         keys = ABNTestConfig.getInstance().getKeys();
-        this.subPanelView = subPanelView;
         textViewPadding = UIUtils.dp2px(ApplicationLifecycle.getInstance().getContext(), 8);
     }
 
@@ -104,6 +105,10 @@ public class KeyDataAdapter extends BaseAdapter implements View.OnClickListener 
     }
 
     public void showSelector(int index) {
+        if(this.subPanelView == null){
+            subPanelView = new KeyValueSubPanelView(mViewRoot);
+        }
+
         String key = keys[index];
         selectedIndex = index;
         Value value = ABNTestConfig.getInstance().getValue(key);
