@@ -454,7 +454,7 @@ public class TableBuilder {
             }
             layout.removeView(view);
 
-            if (mData != null) {
+            if (mData != null && mData.length > 0) {
                 int len = mData.length;
                 String[] nData = new String[len - colCount];
                 int lower = id * colCount;

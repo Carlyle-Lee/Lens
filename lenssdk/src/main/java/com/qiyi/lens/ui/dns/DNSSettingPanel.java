@@ -560,7 +560,9 @@ public class DNSSettingPanel extends FullScreenPanel {
                                 stringBuilder.append(',');
                             }
                         }
-                        stringBuilder.setLength(stringBuilder.length() - 1);
+                        if(stringBuilder.length() > 0) {
+                            stringBuilder.setLength(stringBuilder.length() - 1);
+                        }
                         SharedPreferenceUtils.setSharedPreferences(SP_KEY_DNS_INFO, stringBuilder.toString(), appContext);
                     } else {
                         SharedPreferenceUtils.setSharedPreferences(SP_KEY_DNS_INFO, "", appContext);
