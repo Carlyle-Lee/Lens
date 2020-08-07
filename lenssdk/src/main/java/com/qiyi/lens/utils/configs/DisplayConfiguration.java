@@ -17,7 +17,7 @@
  */
 package com.qiyi.lens.utils.configs;
 
-import com.qiyi.lens.ui.devicepanel.blockInfos.display.ICustomDisplay;
+import com.qiyi.lens.ui.devicepanel.display.ICustomDisplay;
 
 public class DisplayConfiguration {
 

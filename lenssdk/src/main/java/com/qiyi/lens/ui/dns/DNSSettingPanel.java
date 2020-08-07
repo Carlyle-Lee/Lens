@@ -35,6 +35,7 @@ import android.widget.TextView;
 
 import com.qiyi.lens.ui.FloatingPanel;
 import com.qiyi.lens.ui.FullScreenPanel;
+import com.qiyi.lens.ui.widget.tableView.DefaultItemBinder;
 import com.qiyi.lens.ui.widget.tableView.TableBuilder;
 import com.qiyi.lens.ui.widget.tableView.TableView;
 import com.qiyi.lens.utils.DataPool;
@@ -133,15 +134,15 @@ public class DNSSettingPanel extends FullScreenPanel {
         buildUrlFilterTableView(filterTableView);
 
         tableView = (TableView) findViewById(R.id.dns_table_view);
-        builder = TableBuilder.obtain();
+        builder = TableBuilder.obtain(getContext());
         dnsListener = new TableListener(builder);
         // test enviranment
         builder.setColumnCountRowCount(2, 1)
                 .setColumnNames(new String[]{"host", "IP"})
                 .setColumnNamesColor(getColor(R.color.lens_panel_default_dark_color)).setNamesTextSize(18)
-                .setStretchableColumns(0,1)
+                .setStretchableColumns(0, 1)
                 .enableExtraCol().setTableView(tableView).setStrokeWidth(3, 5)
-                .setDataBinder(new TableBuilder.ItemDataBinder() {
+                .setDataBinder(new DefaultItemBinder(getContext()) {
                     @Override
                     public void bindData(String data, View view, int row, int column) {
                         if (row < 0) {
@@ -166,7 +167,7 @@ public class DNSSettingPanel extends FullScreenPanel {
                             //[control View]
                             return createControlView(dnsListener);
                         } else if (row < 0) {
-                            return builder.createDefaultNamesView(getContext());
+                            return super.createItemView(parent, row, column);
                         } else {
                             EditText textView = new EditText(getContext());
                             textView.setTextColor(Color.BLACK);
@@ -180,7 +181,7 @@ public class DNSSettingPanel extends FullScreenPanel {
                         }
                     }
                 });
-        builder.build(getContext());
+        builder.build();
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
@@ -225,9 +226,9 @@ public class DNSSettingPanel extends FullScreenPanel {
     private void displayData(String[] data, String[] filters) {
         if (isAdded) {
             builder.setData(data);
-            builder.build(getContext());
+            builder.build();
             filterBuilder.setData(filters);
-            filterBuilder.build(getContext());
+            filterBuilder.build();
         }
     }
 
@@ -344,7 +345,7 @@ public class DNSSettingPanel extends FullScreenPanel {
     }
 
     private void buildUrlFilterTableView(TableView tableView) {
-        filterBuilder = TableBuilder.obtain();
+        filterBuilder = TableBuilder.obtain(getContext());
         filterListener = new TableListener(filterBuilder);
         filterBuilder.setTableView(tableView)
                 .enableExtraCol()
@@ -352,7 +353,7 @@ public class DNSSettingPanel extends FullScreenPanel {
                 .setStretchableColumns(0)
                 .setColumnCountRowCount(1, 0)
                 .setColumnNamesColor(getColor(R.color.lens_panel_default_dark_color)).setStrokeWidth(3, 5)
-                .setDataBinder(new TableBuilder.ItemDataBinder() {
+                .setDataBinder(new DefaultItemBinder(getContext()) {
                     @Override
                     public void bindData(String data, View view, int row, int column) {
                         if (row < 0) {
@@ -377,7 +378,7 @@ public class DNSSettingPanel extends FullScreenPanel {
                             //[control View]
                             return createControlView(filterListener);
                         } else if (row < 0) {
-                            return filterListener.getBuilder().createDefaultNamesView(getContext());
+                            return super.createItemView(parent, row, column);
                         } else {
                             EditText textView = new EditText(getContext());
                             textView.setTextColor(Color.BLACK);
@@ -391,7 +392,7 @@ public class DNSSettingPanel extends FullScreenPanel {
                         }
                     }
                 })
-                .build(getContext());
+                .build();
 
     }
 

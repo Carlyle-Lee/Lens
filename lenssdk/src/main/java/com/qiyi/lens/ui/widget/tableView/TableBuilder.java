@@ -19,7 +19,6 @@ package com.qiyi.lens.ui.widget.tableView;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TableLayout;
@@ -49,10 +48,17 @@ public class TableBuilder {
     private boolean isExtraColEnabled;
     private int boarderColor;
     private int[] mStretchableColumns;
+    private boolean isBuild;
+    private Context mContext;
 
 
-    public static TableBuilder obtain() {
-        return new TableBuilder();
+    public TableBuilder(Context context) {
+        mContext = context;
+    }
+
+
+    public static TableBuilder obtain(Context context) {
+        return new TableBuilder(context);
     }
 
     public TableBuilder setColumnCountRowCount(int columCount, int rowCount) {
@@ -133,23 +139,70 @@ public class TableBuilder {
 
 
     public TableBuilder setData(String[] data) {
-
         this.mData = data;
         return this;
     }
 
-    public TableBuilder setStretchableColumns(int ... columns) {
+
+    // if new data is null,  text will be set as ""
+    public void notifyDataChange() {
+        if (!isBuild) {
+            build();
+        } else {
+            // do data set change
+            handleDataSetChange();
+        }
+
+    }
+
+    private void handleDataSetChange() {
+        if (layout != null) {
+            int row = 0;
+            int col = 0;
+            int rowOffset = (colNames != null && colNames.length > 0) ? 1 : 0;
+            int colOffset = (rowNames != null && rowNames.length > 0) ? 1 : 0;
+            int dataCount = colCount * rowCount;
+            int dataSize = mData == null ? 0 : mData.length;
+            int p = 0;
+
+            while (p < dataCount) {
+                row = p / colCount ;
+                col = p % colCount;
+                if (p < dataSize) {
+                    setItemData(mData[p], row + rowOffset, col + colOffset);
+                } else {
+                    setItemData("", row + rowOffset, col + colOffset);
+                }
+
+                p++;
+            }
+        }
+    }
+
+
+    public TableBuilder setStretchableColumns(int... columns) {
         mStretchableColumns = columns;
         return this;
     }
 
+    private void createDefaultBinder(Context context) {
+        if (binder == null) {
+            binder = new DefaultItemBinder(context).setItemPadding(itemPadding);
+        }
+        binder
+                .setTextInfo(itemTextSize, itemTextColor)
+                .setNamesTextInfo(namesTextSize, namesTextColor);
 
+    }
 
-    public TableLayout build(Context context) {
+    public TableLayout build() {
 
         if (colCount == 0) {
             return layout;
         }
+
+        Context context = mContext;
+        isBuild = true;
 
         itemPadding = (int) (context.getResources().getDisplayMetrics().density * 10);
         if (layout == null) {
@@ -168,7 +221,7 @@ public class TableBuilder {
 
         boolean hasRowName = false;
 
-        if(mStretchableColumns != null) {
+        if (mStretchableColumns != null) {
             for (int i : mStretchableColumns) {
                 layout.setColumnStretchable(i, true);
             }
@@ -196,8 +249,10 @@ public class TableBuilder {
             layout.setBoarderColor(boarderColor);
         }
 
+        createDefaultBinder(context);
 
 
+        // if has column title: (row 0)
         if (colNames != null && colNames.length >= colCount) {
             colCount = colNames.length;
             //[add col Name]
@@ -221,7 +276,7 @@ public class TableBuilder {
             while (p < rowCount) {
                 TableRow row = new TableRow(context);
                 if (hasRowName) {
-                    View itemView = createRowNameView(context, row, p, rowNames[p]);
+                    View itemView = createRowNameView(row, p, rowNames[p]);
                     row.addView(itemView);
                 }
 
@@ -237,80 +292,37 @@ public class TableBuilder {
     }
 
 
-    private View createRowNameView(Context context, TableRow rowParent, int rowId, String name) {
+    private View createRowNameView(TableRow rowParent, int rowId, String name) {
 
         View itemView;
-        if (binder != null) {
-            itemView = binder.createItemView(rowParent, rowId, -1);
-            binder.bindData(name, itemView, rowId, -1);
-        } else {
-            TextView textView = createDefaultItemView(context, namesTextSize, namesTextColor);
-            textView.setText(name);
-            itemView = textView;
-        }
-
+        itemView = binder.createItemView(rowParent, rowId, -1);
+        binder.bindData(name, itemView, rowId, -1);
         return itemView;
     }
 
 
-    public TextView createDefaultItemView(Context context, int textSize, int textColor) {
-
-        TextView textView = new TextView(context);
-        textView.setTextColor(textColor);
-        textView.setTextSize(textSize);
-        textView.setGravity(Gravity.CENTER);
-        textView.setPadding(itemPadding, 0, itemPadding, 0);
-
-        return textView;
-
-    }
-
-    public TextView createDefaultItemView(Context context) {
-        return createDefaultItemView(context, itemTextSize, itemTextColor);
-    }
-
-    public TextView createDefaultNamesView(Context context) {
-        return createDefaultItemView(context, namesTextSize, namesTextColor);
-    }
-
-
+    /**
+     * @param row
+     * @param data
+     * @param offset
+     * @param rowId  if rowId <0 : its column title;
+     */
     private void inflateRowData(TableRow row, String[] data, int offset, int rowId) {
         //[asset data]
-//        if(data != null && data.length > offset + colCount) {
         int p = 0;
-        Context context = row.getContext();
         boolean dataValid = data != null && data.length >= offset + colCount;
 
         int end = isExtraColEnabled ? colCount + 1 : colCount;
 
         while (p < end) {
-
             if (p == colCount) {
                 dataValid = false;
             }
-
-            View itemView;
-            if (binder != null) {
-                itemView = binder.createItemView(row, rowId, p);
-
-                binder.bindData(dataValid ? data[p + offset] : null, itemView, rowId, p);
-            } else {
-
-                TextView textView = createDefaultItemView(context, itemTextSize, itemTextColor);
-                if (dataValid) {
-                    textView.setText(data[offset + p]);
-                }
-
-                itemView = textView;
-
-            }
+            View itemView = binder.createItemView(row, rowId, p);
+            binder.bindData(dataValid ? data[p + offset] : null, itemView, rowId, p);
             row.addView(itemView);
-
-
             p++;
         }
-
-//        }
 
     }
 
@@ -320,6 +332,10 @@ public class TableBuilder {
         void bindData(String data, View view, int row, int column);
 
         View createItemView(ViewGroup parent, int row, int column);
+
+        ItemDataBinder setNamesTextInfo(int textSize, int textColor);
+
+        ItemDataBinder setTextInfo(int textSize, int textColor);
     }
 
 
@@ -360,6 +376,19 @@ public class TableBuilder {
     }
 
 
+    public void setItemData(String data, int row, int column) {
+        if (layout != null) {
+            View view = layout.getChildAt(row, column);
+            if (binder != null) {
+                binder.bindData(data, view, row, column);
+            } else if (view instanceof TextView) {
+                TextView textView = (TextView) view;
+                textView.setText(data);
+            }
+        }
+    }
+
+    @Deprecated
     public void setData(String data, int row, int column) {
         if (layout != null) {
             View view = layout.getChildAt(row, column);
@@ -388,7 +417,7 @@ public class TableBuilder {
 
             TableRow row = new TableRow(layout.getContext());
             if (rowName != null) {
-                View view = createRowNameView(layout.getContext(), row, rowId, rowName);
+                View view = createRowNameView(row, rowId, rowName);
                 row.addView(view);
             }
             inflateRowData(row, data, 0, rowId);
@@ -527,23 +556,4 @@ public class TableBuilder {
         }
     }
 
-
-    public static class DefaultBinder implements ItemDataBinder {
-        TableBuilder builder;
-
-        public DefaultBinder(TableBuilder builder) {
-            this.builder = builder;
-        }
-
-        @Override
-        public void bindData(String data, View view, int row, int column) {
-            TextView textView = (TextView) view;
-            textView.setText(data);
-        }
-
-        @Override
-        public TextView createItemView(ViewGroup parent, int row, int column) {
-            return builder.createDefaultItemView(parent.getContext());
-        }
-    }
 }

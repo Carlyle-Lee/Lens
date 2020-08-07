@@ -24,10 +24,17 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Utils {
     public static String genRandomString() {
@@ -156,5 +163,149 @@ public class Utils {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
+
+
+    public static String parseStorageSize(long memoSizeInBytes, int intShift) {
+        float var = memoSizeInBytes;
+        float K = 1024;
+        int shift = intShift;
+        while (var > K && shift < 3) {
+            var = var / K;
+            shift++;
+        }
+
+        String ampunt = String.format("%.2f", var);
+        switch (shift) {
+            case 0:
+                return ampunt + "B";
+            case 1:
+                return ampunt + "K";
+            case 2:
+                return ampunt + "M";
+            case 3:
+                return ampunt + "G";
+        }
+        return ampunt;
+    }
+
+    /**
+     * return 0 : if the same, -1: var1 is smaller;
+     *
+     * @param var1
+     * @param var2
+     * @return
+     */
+    public static int storageDataCompare(String var1, String var2) {
+        if (isEmpty(var1)) {
+            if (isEmpty(var2)) return 0;
+            else return -1;
+        } else {
+            if (isEmpty(var2)) return 1; // var1 is larger than var2
+            // compare value;
+            if(var1.equals(var2)) return 0;
+
+            long a = parseStorageData(var1);
+            long b = parseStorageData(var2);
+            return a > b ? 1 : -1;
+        }
+    }
+
+    private static long parseStorageData(@NonNull String var) {
+        int len = var.length();
+        int shift = 0;
+        if (len > 0) {
+            char c = var.charAt(len - 1);
+            switch (c) {
+                case 'M':
+                case 'm':
+                    shift = 20;
+                    break;
+                case 'K':
+                case 'k':
+                    shift = 10;
+                    break;
+                case 'G':
+                case 'g':
+                    shift = 30;
+                    break;
+                default:
+                    //do thing
+            }
+            if (c < '0' || c > '9') {
+                // trim
+                var = var.substring(0, len - 1);
+            }
+
+            // parse:
+            if (var.contains(".")) {
+                float value = parseFloatSafely(var);
+                return (long) (value * (1 << shift));
+            } else {
+                long value = parseLongSafely(var);
+                return value * (1 << shift);
+            }
+        }
+
+        return 0;
+
+    }
+
+    private static float parseFloatSafely(String value) {
+
+        try {
+            return Float.parseFloat(value);
+        } catch (NumberFormatException e) {
+            // dp nothing
+        }
+        return 0f;
+    }
+
+    private static long parseLongSafely(String value) {
+
+        try {
+            return Long.parseLong(value);
+        } catch (NumberFormatException e) {
+            // dp nothing
+        }
+        return 0L;
+    }
+
+
+    public static void printCmd(String cmd) {
+        BufferedReader bufferedReader = null;
+        try {
+            Process process = Runtime.getRuntime().exec(cmd);
+            bufferedReader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream()));
+            String line = bufferedReader.readLine();
+            if (line == null) {
+                FileUtils.closeSafely(bufferedReader);
+                bufferedReader = new BufferedReader(
+                        new InputStreamReader(process.getErrorStream()));
+                line = bufferedReader.readLine();
+                if (line == null) {
+                    Log.d("XXXXXXX", "--empty nothing to read--");
+                    return;
+                }
+            }
+            Log.d("XXXXXXX", line);
+            while (true) {
+                line = bufferedReader.readLine();
+                if (line == null) break;
+                if (line.contains("cpu")) {
+                    Log.d("XXXXXXX", line);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (bufferedReader != null) {
+                FileUtils.closeSafely(bufferedReader);
+            }
+        }
+    }
+
 
 }

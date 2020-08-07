@@ -22,7 +22,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.qiyi.lens.ui.devicepanel.blockInfos.display.ICustomDisplay;
+import com.qiyi.lens.ui.devicepanel.display.ICustomDisplay;
 
 /**
  * 定制Lens 数据展示项：

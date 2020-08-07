@@ -15,12 +15,10 @@
  * limitations under the License.
  *
  */
-package com.qiyi.lens.ui.devicepanel;
+package com.qiyi.lens.ui.devicepanel.device;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.graphics.PixelFormat;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -32,8 +30,6 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import androidx.core.view.ViewCompat;
-
 import com.qiyi.lens.Constants;
 import com.qiyi.lens.dump.DumpDisplayLogPanel;
 import com.qiyi.lens.dump.DumpTagsPanel;
@@ -43,6 +39,7 @@ import com.qiyi.lens.ui.LogInfoDetailPanel;
 import com.qiyi.lens.ui.SharedPreferencePanel;
 import com.qiyi.lens.ui.abtest.ABNTestPanel;
 import com.qiyi.lens.ui.database.DatabasePanel;
+import com.qiyi.lens.ui.devicepanel.InfoManager;
 import com.qiyi.lens.ui.setting.LensSettingsPanel;
 import com.qiyi.lens.utils.ApplicationLifecycle;
 import com.qiyi.lens.utils.DataPool;

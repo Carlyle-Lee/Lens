@@ -28,7 +28,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.qiyi.lens.dynamic.LensContext;
-import com.qiyi.lens.ui.devicepanel.DeviceInfoPanel;
+import com.qiyi.lens.ui.devicepanel.device.DeviceInfoPanel;
 import com.qiyi.lens.utils.event.DataCallBack;
 import com.qiyi.lens.utils.event.EventBus;
 

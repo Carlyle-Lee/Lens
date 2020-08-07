@@ -15,7 +15,7 @@
  * limitations under the License.
  *
  */
-package com.qiyi.lens.ui.devicepanel.blockInfos.display;
+package com.qiyi.lens.ui.devicepanel.display;
 
 import android.os.Handler;
 import android.view.View;

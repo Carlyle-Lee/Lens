@@ -14,6 +14,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'carl.lee.taskmanager:taskmanager:1.4.0'
     compileOnly "androidx.recyclerview:recyclerview:1.0.0"
     compileOnly "androidx.legacy:legacy-support-v4:1.0.0"
     //for network analyse

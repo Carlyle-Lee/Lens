@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import com.qiyi.lens.ui.FloatingPanel;
 import com.qiyi.lens.ui.FullScreenPanel;
+import com.qiyi.lens.ui.widget.tableView.DefaultItemBinder;
 import com.qiyi.lens.ui.widget.tableView.TableBuilder;
 import com.qiyi.lens.ui.widget.tableView.TableView;
 import com.qiyi.lens.utils.UIUtils;
@@ -83,16 +84,16 @@ public class URLFormatPanel extends FullScreenPanel {
         String[] data = url2KeyValue(url);
         if (data != null && data.length > 0) {
             this.mData = data;
-            builder = TableBuilder.obtain();
+            builder = TableBuilder.obtain(getContext());
 //            tableView.setColumnStretchable(1,true);
             builder.setData(data)
                     .setStrokeWidth(2, 4)
                     .setColumnCountRowCount(2, 0)
                     .setTableView(tableView)
-                    .setDataBinder(new TableBuilder.DefaultBinder(builder) {
+                    .setDataBinder(new DefaultItemBinder(getContext()) {
                         @Override
                         public TextView createItemView(ViewGroup parent, int row, int column) {
-                            TextView textView = super.createItemView(parent, row, column);
+                            TextView textView = (TextView) super.createItemView(parent, row, column);
                             textView.setPadding(padding, 0, padding, 0);
                             TableRow.LayoutParams clp = new TableRow.LayoutParams(maxWidth, -2);
                             if (parent.getLayoutParams() == null) {
@@ -111,7 +112,7 @@ public class URLFormatPanel extends FullScreenPanel {
                             return textView;
                         }
                     })
-                    .build(getContext());
+                    .build();
 
 
             searchBtn.setOnClickListener(new View.OnClickListener() {

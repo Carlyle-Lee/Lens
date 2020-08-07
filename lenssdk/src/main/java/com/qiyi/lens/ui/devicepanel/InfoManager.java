@@ -26,12 +26,12 @@ import com.qiyi.lens.utils.LensConfig;
 import com.qiyi.lens.utils.WatchObjInfo;
 import com.qiyi.lens.ui.devicepanel.blockInfos.AbsBlockInfo;
 import com.qiyi.lens.ui.devicepanel.blockInfos.ActivityInfo;
-import com.qiyi.lens.ui.devicepanel.blockInfos.DeviceInfo;
+import com.qiyi.lens.ui.devicepanel.device.DeviceInfo;
 import com.qiyi.lens.ui.devicepanel.blockInfos.LaunchTimeInfo;
 import com.qiyi.lens.ui.devicepanel.blockInfos.MemoryInfoAnalyze;
 import com.qiyi.lens.ui.devicepanel.blockInfos.NetworkInfo;
 import com.qiyi.lens.ui.devicepanel.blockInfos.PermissionInfo;
-import com.qiyi.lens.ui.devicepanel.blockInfos.display.DisplayInfo;
+import com.qiyi.lens.ui.devicepanel.display.DisplayInfo;
 
 public class InfoManager {
     private LensConfig config;
@@ -91,7 +91,7 @@ public class InfoManager {
     private ViewGroup mLayout;
     private BasePanel mBasePanel;
 
-    void bindViews(ViewGroup group, FloatingPanel panel) {
+    public void bindViews(ViewGroup group, FloatingPanel panel) {
         mLayout = group;
         mBasePanel = panel;
         AbsBlockInfo[] infos = getBlockInfos(panel);
@@ -112,7 +112,7 @@ public class InfoManager {
         viewGroup.addView(view);
     }
 
-    void removeViews() {
+    public void removeViews() {
         if (mLayout != null) {
             mLayout.removeAllViews();
         }

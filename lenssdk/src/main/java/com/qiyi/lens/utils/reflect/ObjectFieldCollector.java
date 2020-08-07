@@ -197,7 +197,7 @@ public class ObjectFieldCollector implements Invalidate {
                     data[p++] = info.count + "";
                 }
 
-                TableBuilder.obtain()
+                TableBuilder.obtain(tableView.getContext())
                         .setColumnCountRowCount(2, count)
                         .setColumnNames(new String[]{"视图类型", "个数"})
                         .setRowNames(rowNames)
@@ -208,7 +208,7 @@ public class ObjectFieldCollector implements Invalidate {
                         .setData(data)
                         .setTableView(tableView)
                         .setStretchableColumns(1)
-                        .build(tableView.getContext());
+                        .build();
 
             } else if (tableView != null) {
                 tableView.setVisibility(View.GONE);
